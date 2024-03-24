@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://spcixtkw7uxx"]
+
+[node name="NewWordDialog" type="Panel"]
+anchors_preset = -1
+anchor_right = 0.119
+anchor_bottom = 0.131
+offset_right = -137.088
+offset_bottom = -84.888
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_top = 8.0
+offset_right = 51.0
+offset_bottom = 31.0
+text = "Native"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+offset_top = 62.0
+offset_right = 51.0
+offset_bottom = 85.0
+text = "Target"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 4.0
+offset_right = 314.0
+offset_bottom = 35.0
+
+[node name="LineEdit2" type="LineEdit" parent="."]
+offset_left = 78.0
+offset_top = 59.0
+offset_right = 314.0
+offset_bottom = 90.0
