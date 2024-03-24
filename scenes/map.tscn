@@ -1,11 +1,12 @@
 [gd_scene load_steps=5 format=3 uid="uid://bknmodr1i4iax"]
 
 [ext_resource type="Texture2D" uid="uid://bn43i4ra23x4s" path="res://assets/kenney_pixel-platformer-blocks/Tilemap/marble.png" id="1_2thbj"]
-[ext_resource type="Script" path="res://scenes/map.gd" id="2_gd3nm"]
+[ext_resource type="Script" path="res://scenes/map.gd" id="2_krrt7"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qofh0"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71wrr"]
 texture = ExtResource("1_2thbj")
-texture_region_size = Vector2i(19, 19)
+separation = Vector2i(1, 1)
+texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -15,7 +16,6 @@ texture_region_size = Vector2i(19, 19)
 6:0/0 = 0
 7:0/0 = 0
 8:0/0 = 0
-9:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -25,7 +25,6 @@ texture_region_size = Vector2i(19, 19)
 6:1/0 = 0
 7:1/0 = 0
 8:1/0 = 0
-9:1/0 = 0
 0:2/0 = 0
 1:2/0 = 0
 2:2/0 = 0
@@ -35,28 +34,33 @@ texture_region_size = Vector2i(19, 19)
 6:2/0 = 0
 7:2/0 = 0
 8:2/0 = 0
-9:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
 3:3/0 = 0
 4:3/0 = 0
 5:3/0 = 0
 6:3/0 = 0
 7:3/0 = 0
 8:3/0 = 0
-9:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
 3:4/0 = 0
 4:4/0 = 0
 5:4/0 = 0
 6:4/0 = 0
 7:4/0 = 0
 8:4/0 = 0
-9:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
 3:5/0 = 0
 4:5/0 = 0
 5:5/0 = 0
 6:5/0 = 0
 7:5/0 = 0
 8:5/0 = 0
-9:5/0 = 0
 0:6/0 = 0
 1:6/0 = 0
 2:6/0 = 0
@@ -66,7 +70,6 @@ texture_region_size = Vector2i(19, 19)
 6:6/0 = 0
 7:6/0 = 0
 8:6/0 = 0
-9:6/0 = 0
 0:7/0 = 0
 1:7/0 = 0
 2:7/0 = 0
@@ -76,7 +79,6 @@ texture_region_size = Vector2i(19, 19)
 6:7/0 = 0
 7:7/0 = 0
 8:7/0 = 0
-9:7/0 = 0
 0:8/0 = 0
 1:8/0 = 0
 2:8/0 = 0
@@ -86,24 +88,13 @@ texture_region_size = Vector2i(19, 19)
 6:8/0 = 0
 7:8/0 = 0
 8:8/0 = 0
-9:8/0 = 0
-0:9/0 = 0
-1:9/0 = 0
-2:9/0 = 0
-3:9/0 = 0
-4:9/0 = 0
-5:9/0 = 0
-6:9/0 = 0
-7:9/0 = 0
-8:9/0 = 0
-9:9/0 = 0
-0:3/size_in_atlas = Vector2i(3, 3)
-0:3/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_1wtgn"]
-sources/0 = SubResource("TileSetAtlasSource_qofh0")
+[sub_resource type="TileSet" id="TileSet_8shl4"]
+tile_size = Vector2i(18, 18)
+sources/0 = SubResource("TileSetAtlasSource_71wrr")
 
 [node name="TileMap" type="TileMap"]
-tile_set = SubResource("TileSet_1wtgn")
+tile_set = SubResource("TileSet_8shl4")
 format = 2
-script = ExtResource("2_gd3nm")
+layer_0/tile_data = PackedInt32Array(196611, 262144, 1, 131074, 262144, 1)
+script = ExtResource("2_krrt7")
