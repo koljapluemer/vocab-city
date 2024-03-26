@@ -10,3 +10,11 @@ func _init(in_native_word, in_target_word, in_x, in_y):
 	target_word = in_target_word
 	x = in_x
 	y = in_y
+	
+func as_json():
+	return {
+		"x": self.x,
+		"y": self.y,
+		"native_word": self.native_word,
+		"target_word": self.target_word
+	}
