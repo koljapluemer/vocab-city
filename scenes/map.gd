@@ -13,11 +13,12 @@ func _ready():
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_left")):
-		if !editModeActive:
+		var pos = get_global_mouse_position()
+		if !editModeActive && is_tile_free(local_to_map(pos)):
 			editModeActive = true
 			#add_vocab_node("Maus", "Mouse", get_global_mouse_position().x, get_global_mouse_position().y)		
 		
-			open_dialog(get_global_mouse_position().x, get_global_mouse_position().y)
+			open_dialog(pos.x, pos.y)
 			save_vocabs()
 
 
@@ -47,12 +48,14 @@ func _on_dialog_confirm():
 	add_vocab_node(native_word, target_word, activeCoords.x, activeCoords.y)
 	close_dialog()
 
+func is_tile_free(mapPos):
+	return !get_cell_tile_data(0, mapPos)
 
 func add_vocab_node(native_word, target_word, x, y):
 	var mapPos = local_to_map(Vector2(x, y))
 
 	# skip if tile is already occupied
-	if get_cell_tile_data(0, mapPos):
+	if !is_tile_free(mapPos):
 		print("location occupied")
 		return	
 	var vocab = Vocab.new(native_word, target_word, x, y)
