@@ -1,3 +1,9 @@
+- allow tile delete
+- allow tile edit
+- allow navigating tile map
+
+
+
 - implement mechanism for users to give feedback
 - remove dead code
 - check all files for insufficient inline-comments

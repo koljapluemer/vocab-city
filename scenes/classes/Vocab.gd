@@ -2,19 +2,23 @@ class_name Vocab
 
 var native_word: String;
 var target_word: String;
-var x: int;
-var y: int;
+var map_x: int;
+var map_y: int;
+var ui: Node;
 
-func _init(in_native_word, in_target_word, in_x, in_y):
+func _init(in_native_word, in_target_word, in_x, in_y, in_ui):
 	native_word = in_native_word
 	target_word = in_target_word
-	x = in_x
-	y = in_y
+	map_x = in_x
+	map_y = in_y
+	ui = in_ui 
 	
 func as_json():
 	return {
-		"x": self.x,
-		"y": self.y,
+		"map_x": self.map_x,
+		"map_y": self.map_y,
 		"native_word": self.native_word,
 		"target_word": self.target_word
 	}
+
+

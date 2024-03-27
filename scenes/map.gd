@@ -5,7 +5,7 @@ var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
 var vocabs = []
 
 var editModeActive = false
-var activeCoords 
+var activeMapCoords 
 
 func _ready():
 	load_vocabs()
@@ -20,7 +20,21 @@ func _physics_process(_delta):
 		
 			open_dialog(pos.x, pos.y)
 			save_vocabs()
+			
+	if (Input.is_action_just_pressed("mb_right")):
+		delete_tile(get_global_mouse_position())
 
+
+func delete_tile(pos):
+	var mapPos = local_to_map(pos)
+	print("deleting tile on pos", pos)
+	for vocab in vocabs:
+		if (vocab.map_x == mapPos.x && vocab.map_y == mapPos.y):
+			print("found vocab obj")
+			vocab.ui.queue_free()
+			vocabs.erase(vocab)
+			save_vocabs()
+	set_cell(0, mapPos, 0, Vector2(-1, -1))
 
 func close_dialog():
 	editModeActive = false	
@@ -29,8 +43,8 @@ func close_dialog():
 
 func open_dialog(x, y):
 	var dialog = dialogPrefab.instantiate()
-	activeCoords = Vector2(x, y)
-	dialog.set_position(activeCoords)
+	activeMapCoords = local_to_map(Vector2(x, y))
+	dialog.set_position(Vector2(x, y))
 	add_child(dialog)
 	# confirm button
 	var confirmButton = dialog.get_node("ButtonConfirm")
@@ -45,29 +59,31 @@ func _on_dialog_cancel():
 func _on_dialog_confirm():
 	var native_word = get_node("NewWordDialog").get_node("EditNative").text
 	var target_word =  get_node("NewWordDialog").get_node("EditTarget").text
-	add_vocab_node(native_word, target_word, activeCoords.x, activeCoords.y)
+	add_vocab_node(native_word, target_word, activeMapCoords.x, activeMapCoords.y)
 	close_dialog()
 
 func is_tile_free(mapPos):
 	return !get_cell_tile_data(0, mapPos)
 
 func add_vocab_node(native_word, target_word, x, y):
-	var mapPos = local_to_map(Vector2(x, y))
 
 	# skip if tile is already occupied
-	if !is_tile_free(mapPos):
+	if !is_tile_free(Vector2(x, y)):
 		print("location occupied")
 		return	
-	var vocab = Vocab.new(native_word, target_word, x, y)
+		
+	var targetLabel = targetLabelPrefab.instantiate()	
+	var textPos = map_to_local(Vector2(x, y))	
+	targetLabel.set_position(textPos)
+	targetLabel.text = target_word
+	add_child(targetLabel)
+	
+	var vocab = Vocab.new(native_word, target_word, x, y, targetLabel)
 	vocabs.append(vocab)
 
-	set_cell(0, mapPos, 0, Vector2(0,0))
+	set_cell(0, Vector2(x, y), 0, Vector2(0,0))
 	
-	var targetLabel = targetLabelPrefab.instantiate()	
-	var textPos = map_to_local(mapPos)	
-	targetLabel.set_position(textPos)
-	targetLabel.text = vocab.target_word
-	add_child(targetLabel)
+
 	
 	
 func save_vocabs():
@@ -98,5 +114,6 @@ func load_vocabs():
 		# Get the data from the JSON object
 		var node_data = json.get_data()
 		print("adding node", node_data)
-		add_vocab_node(node_data.native_word, node_data.target_word, node_data.x, node_data.y)
+		
+		add_vocab_node(node_data.native_word, node_data.target_word, node_data.map_x, node_data.map_y)
 		
