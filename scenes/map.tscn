@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bknmodr1i4iax"]
+[gd_scene load_steps=6 format=3 uid="uid://bknmodr1i4iax"]
 
 [ext_resource type="Texture2D" uid="uid://c7i5n5e3sl1fe" path="res://assets/big_tile.png" id="1_rkd18"]
 [ext_resource type="Script" path="res://scenes/map.gd" id="2_krrt7"]
+[ext_resource type="Script" path="res://scenes/Camera2D.gd" id="3_5phxi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v4w4g"]
 texture = ExtResource("1_rkd18")
@@ -18,3 +19,6 @@ sources/0 = SubResource("TileSetAtlasSource_v4w4g")
 tile_set = SubResource("TileSet_8lkn6")
 format = 2
 script = ExtResource("2_krrt7")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_5phxi")
