@@ -38,9 +38,16 @@ offset_top = 59.0
 offset_right = 314.0
 offset_bottom = 90.0
 
-[node name="ButtonConfirm" type="Button" parent="."]
+[node name="ButtonCancel" type="Button" parent="."]
 layout_mode = 0
 offset_top = 120.0
 offset_right = 125.0
+offset_bottom = 151.0
+text = "Cancel"
+
+[node name="ButtonConfirm" type="Button" parent="."]
+offset_left = 136.0
+offset_top = 120.0
+offset_right = 261.0
 offset_bottom = 151.0
 text = "Confirm"

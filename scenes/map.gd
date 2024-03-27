@@ -5,6 +5,7 @@ var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
 var vocabs = []
 
 var editModeActive = false
+var activeCoords 
 
 func _ready():
 	load_vocabs()
@@ -19,10 +20,33 @@ func _physics_process(_delta):
 			open_dialog(get_global_mouse_position().x, get_global_mouse_position().y)
 			save_vocabs()
 
+
+func close_dialog():
+	editModeActive = false	
+	var dialog = get_node("NewWordDialog")
+	dialog.queue_free()
+
 func open_dialog(x, y):
 	var dialog = dialogPrefab.instantiate()
-	dialog.set_position(Vector2(x, y))
+	activeCoords = Vector2(x, y)
+	dialog.set_position(activeCoords)
 	add_child(dialog)
+	# confirm button
+	var confirmButton = dialog.get_node("ButtonConfirm")
+	confirmButton.pressed.connect(_on_dialog_confirm)
+	# cancel button
+	var cancelButton = dialog.get_node("ButtonCancel")
+	cancelButton.pressed.connect(_on_dialog_cancel)
+
+func _on_dialog_cancel():
+	close_dialog()
+
+func _on_dialog_confirm():
+	var native_word = get_node("NewWordDialog").get_node("EditNative").text
+	var target_word =  get_node("NewWordDialog").get_node("EditTarget").text
+	add_vocab_node(native_word, target_word, activeCoords.x, activeCoords.y)
+	close_dialog()
+
 
 func add_vocab_node(native_word, target_word, x, y):
 	var mapPos = local_to_map(Vector2(x, y))
