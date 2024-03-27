@@ -1,6 +1,6 @@
 extends TileMap
 
-var targetLabelPrefab = load("res://scenes/prefabs/TargetLabel.tscn")
+var prefabVocabUI = load("res://scenes/prefabs/InterfaceVocab.tscn")
 var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
 var vocabs = []
 
@@ -72,13 +72,15 @@ func add_vocab_node(native_word, target_word, x, y):
 		print("location occupied")
 		return	
 		
-	var targetLabel = targetLabelPrefab.instantiate()	
+	var ui_obj = prefabVocabUI.instantiate()
 	var textPos = map_to_local(Vector2(x, y))	
-	targetLabel.set_position(textPos)
-	targetLabel.text = target_word
-	add_child(targetLabel)
+	ui_obj.set_position(Vector2(textPos.x - 64, textPos.y - 100))
+	print("ui", ui_obj.name)
+	ui_obj.get_node("LabelTarget").text = target_word
+	ui_obj.get_node("LabelNative").text = native_word
+	add_child(ui_obj)
 	
-	var vocab = Vocab.new(native_word, target_word, x, y, targetLabel)
+	var vocab = Vocab.new(native_word, target_word, x, y, ui_obj)
 	vocabs.append(vocab)
 
 	set_cell(0, Vector2(x, y), 0, Vector2(0,0))

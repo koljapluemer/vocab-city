@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c0n7gh4yekjco"]
+
+[node name="InterfaceVocab" type="Panel"]
+
+[node name="LabelNative" type="Label" parent="."]
+offset_top = 80.0
+offset_right = 51.0
+offset_bottom = 103.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Native"
+
+[node name="LabelTarget" type="Label" parent="."]
+offset_top = 32.0
+offset_right = 106.0
+offset_bottom = 79.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 34
+text = "Target"
+
+[node name="ButtonEdit" type="Button" parent="."]
+offset_top = 120.0
+offset_right = 125.0
+offset_bottom = 151.0
+text = "Edit"
