@@ -1,7 +1,10 @@
 extends TileMap
 
 var targetLabelPrefab = load("res://scenes/prefabs/TargetLabel.tscn")
+var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
 var vocabs = []
+
+var editModeActive = false
 
 func _ready():
 	load_vocabs()
@@ -9,17 +12,32 @@ func _ready():
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_left")):
-		add_vocab_node("Maus", "Mouse", get_global_mouse_position().x, get_global_mouse_position().y)		
-		save_vocabs()
+		if !editModeActive:
+			editModeActive = true
+			#add_vocab_node("Maus", "Mouse", get_global_mouse_position().x, get_global_mouse_position().y)		
+		
+			open_dialog(get_global_mouse_position().x, get_global_mouse_position().y)
+			save_vocabs()
+
+func open_dialog(x, y):
+	var dialog = dialogPrefab.instantiate()
+	dialog.set_position(Vector2(x, y))
+	add_child(dialog)
 
 func add_vocab_node(native_word, target_word, x, y):
+	var mapPos = local_to_map(Vector2(x, y))
+
+	# skip if tile is already occupied
+	if get_cell_tile_data(0, mapPos):
+		print("location occupied")
+		return	
 	var vocab = Vocab.new(native_word, target_word, x, y)
 	vocabs.append(vocab)
 
-	var targetLabel = targetLabelPrefab.instantiate()
-	var mapPos = local_to_map(get_global_mouse_position())
-	var textPos = map_to_local(mapPos)
 	set_cell(0, mapPos, 0, Vector2(0,0))
+	
+	var targetLabel = targetLabelPrefab.instantiate()	
+	var textPos = map_to_local(mapPos)	
 	targetLabel.set_position(textPos)
 	targetLabel.text = vocab.target_word
 	add_child(targetLabel)

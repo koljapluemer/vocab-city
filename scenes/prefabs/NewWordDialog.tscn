@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://spcixtkw7uxx"]
 
 [node name="NewWordDialog" type="Panel"]
+z_index = 10
 anchors_preset = -1
 anchor_right = 0.119
 anchor_bottom = 0.131
@@ -12,6 +13,7 @@ layout_mode = 2
 offset_top = 8.0
 offset_right = 51.0
 offset_bottom = 31.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Native"
 
 [node name="Label2" type="Label" parent="."]
@@ -19,18 +21,26 @@ layout_mode = 2
 offset_top = 62.0
 offset_right = 51.0
 offset_bottom = 85.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Target"
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="EditNative" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 4.0
 offset_right = 314.0
 offset_bottom = 35.0
 
-[node name="LineEdit2" type="LineEdit" parent="."]
+[node name="EditTarget" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 59.0
 offset_right = 314.0
 offset_bottom = 90.0
+
+[node name="ButtonConfirm" type="Button" parent="."]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 125.0
+offset_bottom = 151.0
+text = "Confirm"
