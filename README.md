@@ -15,4 +15,5 @@
 
 ## Credit
 
-- using [this tilemap asset](https://kenney.nl/assets/pixel-platformer-blocks)
+- ran initial experiments with [this tilemap asset](https://kenney.nl/assets/pixel-platformer-blocks)
+- camera movement inspired by [this tutorial](https://www.youtube.com/watch?v=KHYk44x2rqM&list=PLM-hFhoXjVl1hq0j9lxgRCzxkBpDZhDlT&index=2)

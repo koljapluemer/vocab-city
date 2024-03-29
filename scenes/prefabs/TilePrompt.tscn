@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://ytya6ehnoqxs"]
+
+[node name="TilePrompt" type="Label"]
+text = "do something :("

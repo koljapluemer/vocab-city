@@ -2,7 +2,9 @@ extends TileMap
 
 var prefabVocabUI = load("res://scenes/prefabs/InterfaceVocab.tscn")
 var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
+var prefabTilePrompt = load("res://scenes/prefabs/TilePrompt.tscn")
 var vocabs = []
+var marks = []
 
 var editModeActive = false
 var activeMapCoords 
@@ -18,7 +20,6 @@ func _physics_process(_delta):
 			editModeActive = true
 		
 			open_dialog(pos.x, pos.y)
-			save_vocabs()
 		else:
 			delete_tile(get_global_mouse_position())
 
@@ -33,6 +34,13 @@ func delete_tile(pos):
 			vocabs.erase(vocab)
 			save_vocabs()
 	set_cell(0, mapPos, 0, Vector2(-1, -1))
+
+
+func get_vocab_from_map_pos(pos):
+	for vocab in vocabs:
+		if (vocab.map_x == pos.x && vocab.map_y == pos.y):
+			return vocab
+	return null
 
 func close_dialog():
 	editModeActive = false	
@@ -58,6 +66,7 @@ func _on_dialog_confirm():
 	var native_word = get_node("NewWordDialog").get_node("EditNative").text
 	var target_word =  get_node("NewWordDialog").get_node("EditTarget").text
 	add_vocab_node(native_word, target_word, activeMapCoords.x, activeMapCoords.y)
+	save_vocabs()	
 	close_dialog()
 
 func is_tile_free(mapPos):
@@ -83,7 +92,46 @@ func add_vocab_node(native_word, target_word, x, y):
 
 	set_cell(0, Vector2(x, y), 0, Vector2(0,0))
 	
+	mark_neighbor_tiles(Vector2(x, y))
+	
 
+func mark_neighbor_tiles(pos):
+	var neighbor_positions = [
+		Vector2(pos.x + 1, pos.y),
+		Vector2(pos.x - 1, pos.y),
+		Vector2(pos.x, pos.y + 1),
+		Vector2(pos.x, pos.y -1),
+	]
+	for p in neighbor_positions:
+		var words = analyze_neighbors(p)
+		if len(words) > 0:
+			var prompt_string = "Add something related to "
+			var i = 0
+			for word in words:
+				if i > 0:
+					prompt_string += " and "
+				prompt_string += word
+				i += 1
+			print("prompt string:", prompt_string)
+			var prompt = prefabTilePrompt.instantiate()
+			prompt.position = map_to_local(p)
+			prompt.text = prompt_string
+			add_child(prompt)
+			
+	
+func analyze_neighbors(pos):
+	var neighboring_words = []
+	var positions_to_check = [
+		Vector2(pos.x + 1, pos.y),
+		Vector2(pos.x - 1, pos.y),
+		Vector2(pos.x, pos.y + 1),
+		Vector2(pos.x, pos.y -1),
+	]
+	for p in positions_to_check:
+		var vocab = get_vocab_from_map_pos(p)
+		if vocab:
+			neighboring_words.append(vocab.target_word)
+	return neighboring_words
 	
 	
 func save_vocabs():
@@ -92,6 +140,8 @@ func save_vocabs():
 	for vocab in vocabs:
 		var json_string = JSON.stringify(vocab.as_json())
 		save_game.store_line(json_string)
+		
+	print("Game Saved.")
 	
 		
 func load_vocabs():
