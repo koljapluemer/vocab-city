@@ -12,17 +12,15 @@ func _ready():
 	print("TileMap ready")
 
 func _physics_process(_delta):
-	if (Input.is_action_just_pressed("mb_left")):
+	if (Input.is_action_just_pressed("mb_right")):
 		var pos = get_global_mouse_position()
 		if !editModeActive && is_tile_free(local_to_map(pos)):
 			editModeActive = true
-			#add_vocab_node("Maus", "Mouse", get_global_mouse_position().x, get_global_mouse_position().y)		
 		
 			open_dialog(pos.x, pos.y)
 			save_vocabs()
-			
-	if (Input.is_action_just_pressed("mb_right")):
-		delete_tile(get_global_mouse_position())
+		else:
+			delete_tile(get_global_mouse_position())
 
 
 func delete_tile(pos):
