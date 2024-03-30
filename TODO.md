@@ -1,6 +1,4 @@
-- allow tile delete
-- allow tile edit
-- allow navigating tile map
+- consider [this](https://www.youtube.com/watch?v=7nTQA_6CL6M) to overengineer a hover effect
 
 
 

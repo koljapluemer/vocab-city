@@ -114,7 +114,8 @@ func mark_neighbor_tiles(pos):
 				i += 1
 			print("prompt string:", prompt_string)
 			var prompt = prefabTilePrompt.instantiate()
-			prompt.position = map_to_local(p)
+			var real_pos = map_to_local(p)
+			prompt.position = Vector2(real_pos.x -50, real_pos.y -50)
 			prompt.text = prompt_string
 			add_child(prompt)
 			
