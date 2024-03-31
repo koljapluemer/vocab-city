@@ -105,6 +105,8 @@ func mark_neighbor_tiles(pos):
 	for p in neighbor_positions:
 		var words = analyze_neighbors(p)
 		if len(words) > 0:
+			var real_pos = map_to_local(p)
+			var adjusted_pos = Vector2(real_pos.x -50, real_pos.y -50)
 			var prompt_string = "Add something related to "
 			var i = 0
 			for word in words:
@@ -114,8 +116,8 @@ func mark_neighbor_tiles(pos):
 				i += 1
 			print("prompt string:", prompt_string)
 			var prompt = prefabTilePrompt.instantiate()
-			var real_pos = map_to_local(p)
-			prompt.position = Vector2(real_pos.x -50, real_pos.y -50)
+
+			prompt.position = adjusted_pos
 			prompt.text = prompt_string
 			add_child(prompt)
 			
