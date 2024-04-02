@@ -9,9 +9,12 @@ var marks = []
 var editModeActive = false
 var activeMapCoords 
 
+var map
+
 func _ready():
+	map = MapManager.new()
 	load_vocabs()
-	print("TileMap ready")
+	
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_right")):
@@ -97,7 +100,7 @@ func add_vocab_node(native_word, target_word, x, y):
 
 func mark_neighbor_tiles(pos):
 	var neighbor_positions = [
-		Vector2(pos.x + 1, pos.y),
+		Vector2(pos.x + 1, pos.y), 
 		Vector2(pos.x - 1, pos.y),
 		Vector2(pos.x, pos.y + 1),
 		Vector2(pos.x, pos.y -1),
@@ -115,11 +118,16 @@ func mark_neighbor_tiles(pos):
 				prompt_string += word
 				i += 1
 			print("prompt string:", prompt_string)
-			var prompt = prefabTilePrompt.instantiate()
+			var cell_content = map.get_cell_at_pos(p.x, p.y)
+			print("cell content so far:", cell_content)
+			if !cell_content:
+				var prompt = prefabTilePrompt.instantiate()
+				var cell = MapCell.new(p.x, p.y, prompt)
+				map.add_cell(cell)
 
-			prompt.position = adjusted_pos
-			prompt.text = prompt_string
-			add_child(prompt)
+				prompt.position = adjusted_pos
+				prompt.text = prompt_string
+				add_child(prompt)
 			
 	
 func analyze_neighbors(pos):
