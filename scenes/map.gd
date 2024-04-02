@@ -18,7 +18,14 @@ func generate_cell_dict_key_from_pos(x,y):
 	
 func add_cell(cell):
 	cellDataGrid[generate_cell_dict_key_from_pos(cell.x, cell.y)] = cell
-	
+
+func delete_cell_at_pos(x, y):	
+	var key = generate_cell_dict_key_from_pos(x,y)
+	if key in cellDataGrid:
+		for obj in cellDataGrid[key].cellDataObjects:
+				obj.obj.queue_free()
+		cellDataGrid.erase(key)
+
 func get_cell_at_pos(x, y):
 	var key = generate_cell_dict_key_from_pos(x,y)
 	if key in cellDataGrid:
@@ -135,7 +142,20 @@ func mark_neighbor_tiles(pos):
 			print("prompt string:", prompt_string)
 			var cell_content = get_cell_at_pos(p.x, p.y)
 			print("cell content so far:", cell_content)
+			var generate_prompt_obj = false
+			# we want a new prompt cell if the cell is null
 			if !cell_content:
+				generate_prompt_obj = true
+			# also we want to overwrite shorter prompts
+			if cell_content:
+				if cell_content.state == "prompt": 
+					print("cell: ", cell_content.cellDataObjects[0])
+					if len(cell_content.cellDataObjects[0].obj.text) < len(prompt_string):
+						delete_cell_at_pos(p.x, p.y)
+						generate_prompt_obj = true
+				
+				
+			if generate_prompt_obj:
 				var prompt = prefabTilePrompt.instantiate()
 				var cell = CellData.new(p.x, p.y, "prompt")
 				add_cell(cell)
