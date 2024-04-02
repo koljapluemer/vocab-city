@@ -128,6 +128,8 @@ func mark_neighbor_tiles(pos):
 				prompt.position = adjusted_pos
 				prompt.text = prompt_string
 				add_child(prompt)
+			else:
+				print("type of existing obj ", cell_content.get_class())
 			
 	
 func analyze_neighbors(pos):
