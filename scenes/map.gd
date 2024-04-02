@@ -9,10 +9,25 @@ var marks = []
 var editModeActive = false
 var activeMapCoords 
 
-var map
+var cellDataGrid: Dictionary;
+
+
+	
+func generate_cell_dict_key_from_pos(x,y):
+	return str(x) + '_' + str(y)
+	
+func add_cell(cell):
+	cellDataGrid[generate_cell_dict_key_from_pos(cell.x, cell.y)] = cell
+	
+func get_cell_at_pos(x, y):
+	var key = generate_cell_dict_key_from_pos(x,y)
+	if key in cellDataGrid:
+		return cellDataGrid[key]
+	else:
+		return null
 
 func _ready():
-	map = MapManager.new()
+	cellDataGrid = {}
 	load_vocabs()
 	
 
@@ -118,18 +133,18 @@ func mark_neighbor_tiles(pos):
 				prompt_string += word
 				i += 1
 			print("prompt string:", prompt_string)
-			var cell_content = map.get_cell_at_pos(p.x, p.y)
+			var cell_content = get_cell_at_pos(p.x, p.y)
 			print("cell content so far:", cell_content)
 			if !cell_content:
 				var prompt = prefabTilePrompt.instantiate()
-				var cell = MapCell.new(p.x, p.y, prompt)
-				map.add_cell(cell)
-
+				var cell = CellData.new(p.x, p.y, "prompt")
+				add_cell(cell)
 				prompt.position = adjusted_pos
 				prompt.text = prompt_string
 				add_child(prompt)
+				cell.append_obj(CellDataObj.new(prompt))
 			else:
-				print("type of existing obj ", cell_content.get_class())
+				print("type of existing obj ", cell_content.state)
 			
 	
 func analyze_neighbors(pos):
