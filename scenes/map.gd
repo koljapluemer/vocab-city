@@ -7,7 +7,7 @@ var vocabs = []
 var marks = []
 
 var editModeActive = false
-var activeMapCoords 
+var activeMapCoords
 
 var cellDataGrid: Dictionary;
 
@@ -20,11 +20,11 @@ func generate_cell_dict_key_from_pos(x,y):
 func add_cell(cell):
 	cellDataGrid[generate_cell_dict_key_from_pos(cell.x, cell.y)] = cell
 
-func delete_cell_at_pos(x, y):	
+func delete_cell_at_pos(x, y):
 	var key = generate_cell_dict_key_from_pos(x,y)
 	if key in cellDataGrid:
 		for obj in cellDataGrid[key].cellDataObjects:
-				obj.obj.queue_free()
+			obj.obj.queue_free()
 		cellDataGrid.erase(key)
 
 func get_cell_at_pos(x, y):
@@ -71,7 +71,7 @@ func get_vocab_from_map_pos(pos):
 	return null
 
 func close_dialog():
-	editModeActive = false	
+	editModeActive = false
 	var dialog = get_node("NewWordDialog")
 	dialog.queue_free()
 
@@ -94,7 +94,7 @@ func _on_dialog_confirm():
 	var native_word = get_node("NewWordDialog").get_node("EditNative").text
 	var target_word =  get_node("NewWordDialog").get_node("EditTarget").text
 	add_vocab_node(native_word, target_word, activeMapCoords.x, activeMapCoords.y)
-	save_vocabs()	
+	save_vocabs()
 	close_dialog()
 
 func is_tile_free(mapPos):
@@ -105,10 +105,10 @@ func add_vocab_node(native_word, target_word, x, y):
 	# skip if tile is already occupied
 	if !is_tile_free(Vector2(x, y)):
 		print("location occupied")
-		return	
+		return
 		
 	var ui_obj = prefabVocabUI.instantiate()
-	var textPos = map_to_local(Vector2(x, y))	
+	var textPos = map_to_local(Vector2(x, y))
 	ui_obj.set_position(Vector2(textPos.x - 64, textPos.y - 100))
 	print("ui", ui_obj.name)
 	ui_obj.get_node("LabelTarget").text = target_word
@@ -125,7 +125,7 @@ func add_vocab_node(native_word, target_word, x, y):
 
 func mark_neighbor_tiles(pos):
 	var neighbor_positions = [
-		Vector2(pos.x + 1, pos.y), 
+		Vector2(pos.x + 1, pos.y),
 		Vector2(pos.x - 1, pos.y),
 		Vector2(pos.x, pos.y + 1),
 		Vector2(pos.x, pos.y -1),
@@ -151,7 +151,7 @@ func mark_neighbor_tiles(pos):
 				generate_prompt_obj = true
 			# also we want to overwrite shorter prompts
 			if cell_content:
-				if cell_content.state == "prompt": 
+				if cell_content.state == "prompt":
 					print("cell: ", cell_content.cellDataObjects[0])
 					if len(cell_content.cellDataObjects[0].obj.text) < len(prompt_string):
 						delete_cell_at_pos(p.x, p.y)
@@ -186,7 +186,7 @@ func analyze_neighbors(pos):
 	
 	
 func save_vocabs():
-	var save_game = FileAccess.open("user://vocab-city-vocabs.save", FileAccess.WRITE)	
+	var save_game = FileAccess.open("user://vocab-city-vocabs.save", FileAccess.WRITE)
 	print("saving vocabs")
 	for vocab in vocabs:
 		var json_string = JSON.stringify(vocab.as_json())
@@ -201,7 +201,7 @@ func load_vocabs():
 		print("no save file found")
 		return
 		
-	var save_game = FileAccess.open("user://vocab-city-vocabs.save", FileAccess.READ)	
+	var save_game = FileAccess.open("user://vocab-city-vocabs.save", FileAccess.READ)
 	while save_game.get_position() < save_game.get_length():
 		var json_string = save_game.get_line()
 		var json = JSON.new()
