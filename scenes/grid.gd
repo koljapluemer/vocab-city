@@ -3,7 +3,7 @@ extends Node2D
 
 var prefabVocabUI = load("res://scenes/prefabs/InterfaceVocab.tscn")
 var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
-var prefabTilePrompt = load("res://scenes/prefabs/TilePrompt.tscn")
+var prefabPromptCell = load("res://scenes/prefabs/PromptCell.tscn")
 var prefabCell = load("res://scenes/prefabs/Cell.tscn")
 
 
@@ -156,7 +156,6 @@ func mark_neighbor_tiles(pos):
 		var words = analyze_neighbors(p)
 		if len(words) > 0:
 			var real_pos = grid_to_world(p)
-			var adjusted_pos = Vector2(real_pos.x -50, real_pos.y -50)
 			var prompt_string = "Add something related to "
 			var i = 0
 			for word in words:
@@ -182,9 +181,10 @@ func mark_neighbor_tiles(pos):
 				
 				
 				if generate_prompt_obj:
-					var prompt = prefabTilePrompt.instantiate()
-					prompt.position = adjusted_pos
-					prompt.text = prompt_string
+					var prompt = prefabPromptCell.instantiate()
+					prompt.position = real_pos
+					var label = prompt.get_node("Label")
+					label.text = prompt_string
 					add_child(prompt)
 				else:
 					print("type of existing obj ", cell_content.state)
