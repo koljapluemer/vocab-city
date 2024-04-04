@@ -3,6 +3,7 @@ extends TileMap
 var prefabVocabUI = load("res://scenes/prefabs/InterfaceVocab.tscn")
 var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
 var prefabTilePrompt = load("res://scenes/prefabs/TilePrompt.tscn")
+var prefabCell = load("res://scenes/prefabs/Cell.tscn")
 var vocabs = []
 var marks = []
 

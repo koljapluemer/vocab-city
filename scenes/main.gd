@@ -1,8 +1,10 @@
 extends Node2D
 
-var grid 
+
+
+
+@onready var grid = $grid
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	grid = MapGrid.new()
 	grid.generate_grid()

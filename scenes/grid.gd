@@ -4,6 +4,7 @@ extends Node2D
 var prefabVocabUI = load("res://scenes/prefabs/InterfaceVocab.tscn")
 var dialogPrefab = load("res://scenes/prefabs/NewWordDialog.tscn")
 var prefabTilePrompt = load("res://scenes/prefabs/TilePrompt.tscn")
+var prefabCell = load("res://scenes/prefabs/Cell.tscn")
 
 
 @export var width: int = 12
@@ -23,7 +24,7 @@ var activeMapCoords
 func generate_grid():
 	for x in width:
 		for y in height:
-			grid[Vector2(x,y)] = null
+			grid[Vector2(x,y)] = {}
 			if show_debug:
 				var rect = ReferenceRect.new()
 				rect.position = grid_to_world(Vector2(x, y))
@@ -37,14 +38,35 @@ func grid_to_world(_pos: Vector2) -> Vector2:
 func world_to_grid(_pos: Vector2) -> Vector2:
 	return floor(_pos / cell_size)
 
-func get_cell_content(_pos: Vector2):
+func get_cell_state(_pos: Vector2):
 	if grid.has(_pos):
-		if grid[_pos].has("contents"):
+		if grid[_pos].has("state"):
 			return grid[_pos].contents
 	return null
 
 func is_cell_free(_pos: Vector2):
-	return get_cell_content(_pos) == null || get_cell_content(_pos) == "empty"
+	return get_cell_state(_pos) == null || get_cell_state(_pos) == "empty"
+
+func edit_cell(pos, new_state, objects_to_add):
+	if !grid.has(pos):
+		grid[pos] = {}
+	grid[pos]["state"] = new_state
+	grid[pos]["objects"] = objects_to_add
+	set_cell_background(pos)
+
+
+func set_cell_background(pos):
+	if !grid.has(pos):
+		return
+	if !grid[pos].has("bg_obj"):
+		print("setting cell bg for", pos)
+		var cell_node = prefabCell.instantiate()
+		var map_pos = world_to_grid(pos)
+		var cell_pos = grid_to_world(map_pos)
+		print("cell pos:", cell_pos)
+		cell_node.set_position(cell_pos)
+		grid[pos]["bg_obj"] = cell_node
+		add_child(cell_node)
 
 # Main Loop 
 
@@ -90,21 +112,18 @@ func close_dialog():
 
 func add_vocab_node(native_word, target_word, x, y):
 	var pos = Vector2(x, y)
+	var gridPos = grid_to_world(pos)
 	# skip if tile is already occupied
 	if !is_cell_free(Vector2(x, y)):
 		print("location occupied")
 		return
 		
 	var ui_obj = prefabVocabUI.instantiate()
-	var textPos = world_to_grid(pos)
+	var textPos = grid_to_world(gridPos)
 	ui_obj.set_position(Vector2(textPos.x - 64, textPos.y - 100))
 	print("ui", ui_obj.name)
 	ui_obj.get_node("LabelTarget").text = target_word
 	ui_obj.get_node("LabelNative").text = native_word
 	add_child(ui_obj)
 	
-	var vocab = Vocab.new(native_word, target_word, x, y, ui_obj)
-
-	# set_cell(0, Vector2(x, y), 0, Vector2(0,0))
-	
-	# mark_neighbor_tiles(Vector2(x, y))
+	edit_cell(gridPos, "vocab", [ui_obj])
