@@ -9,7 +9,7 @@ var prefabCell = load("res://scenes/prefabs/Cell.tscn")
 
 @export var width: int = 12
 @export var height: int = 12
-@export var cell_size: int = 128
+@export var cell_size: int = 256
 
 @export var show_debug: bool = true
 
@@ -61,8 +61,7 @@ func set_cell_background(pos):
 	if !grid[pos].has("bg_obj"):
 		print("setting cell bg for", pos)
 		var cell_node = prefabCell.instantiate()
-		var map_pos = world_to_grid(pos)
-		var cell_pos = grid_to_world(map_pos)
+		var cell_pos = grid_to_world(pos)
 		print("cell pos:", cell_pos)
 		cell_node.set_position(cell_pos)
 		grid[pos]["bg_obj"] = cell_node
@@ -80,6 +79,9 @@ func _physics_process(_delta):
 		else:
 			#delete_tile(get_global_mouse_position())
 			pass
+
+
+# Misc UI Stuff
 
 func open_dialog(x, y):
 	var dialog = dialogPrefab.instantiate()
@@ -111,8 +113,7 @@ func close_dialog():
 	dialog.queue_free()
 
 func add_vocab_node(native_word, target_word, x, y):
-	var pos = Vector2(x, y)
-	var gridPos = grid_to_world(pos)
+	var gridPos = Vector2(x, y)
 	# skip if tile is already occupied
 	if !is_cell_free(Vector2(x, y)):
 		print("location occupied")
@@ -120,7 +121,8 @@ func add_vocab_node(native_word, target_word, x, y):
 		
 	var ui_obj = prefabVocabUI.instantiate()
 	var textPos = grid_to_world(gridPos)
-	ui_obj.set_position(Vector2(textPos.x - 64, textPos.y - 100))
+	print("setting text at", textPos)
+	ui_obj.set_position(textPos)
 	print("ui", ui_obj.name)
 	ui_obj.get_node("LabelTarget").text = target_word
 	ui_obj.get_node("LabelNative").text = native_word
