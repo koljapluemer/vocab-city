@@ -11,6 +11,7 @@ var activeMapCoords
 
 var cellDataGrid: Dictionary;
 
+@onready var tileSelectMat: ShaderMaterial = load("res://materials/TileSelectMaterial.material")
 
 	
 func generate_cell_dict_key_from_pos(x,y):
@@ -37,6 +38,8 @@ func _ready():
 	cellDataGrid = {}
 	load_vocabs()
 	
+func _process(delta):
+	tileSelectMat.set_shader_parameter("globalMousePos", get_global_mouse_position())
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_right")):
