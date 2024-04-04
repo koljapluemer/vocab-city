@@ -17,14 +17,14 @@ var grid: Dictionary = {}
 var editModeActive = false
 var activeMapCoords 
 
-
-
 # Grid Helper Functions
 
 func generate_grid():
 	for x in width:
 		for y in height:
-			grid[Vector2(x,y)] = {}
+			grid[Vector2(x,y)] = {
+				"state": "empty"
+			}
 			if show_debug:
 				var rect = ReferenceRect.new()
 				rect.position = grid_to_world(Vector2(x, y))
@@ -42,10 +42,8 @@ func get_cell_state(_pos: Vector2):
 	if grid.has(_pos):
 		if grid[_pos].has("state"):
 			return grid[_pos].state
-	return null
+	return "empty"
 
-func is_cell_free(_pos: Vector2):
-	return get_cell_state(_pos) == null || get_cell_state(_pos) == "empty"
 
 func edit_cell(pos, new_state, objects_to_add):
 	print("editing cell at", pos)
@@ -90,7 +88,7 @@ func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_right")):
 		var pos = get_global_mouse_position()
 		var map_pos = world_to_grid(pos)
-		if !editModeActive && is_cell_free(map_pos):
+		if !editModeActive &&  get_cell_state(map_pos) == "empty":
 			editModeActive = true
 			open_dialog(pos.x, pos.y)
 		else:
@@ -164,12 +162,17 @@ func mark_neighbor_tiles(pos):
 				prompt_string += word
 				i += 1
 			print("prompt string:", prompt_string)
-			if p in grid:
+			
+			var generate_prompt_obj = false
+
+			if p not in grid:
+				grid[p] = {}
+				generate_prompt_obj = true
+			else:	
+
 				var cell_content = grid[p]
-				print("cell content so far:", cell_content)
-				var generate_prompt_obj = false
 				# we want a new prompt cell if the cell is null
-				if !cell_content:
+				if get_cell_state(p) == "empty":
 					generate_prompt_obj = true
 				# also we want to overwrite shorter prompts
 				if "state" in cell_content:
@@ -178,16 +181,14 @@ func mark_neighbor_tiles(pos):
 						if len(cell_content.objects[0].obj.text) < len(prompt_string):
 							delete_cell_at_grid_pos(p)
 							generate_prompt_obj = true
-				
-				
-				if generate_prompt_obj:
-					var prompt = prefabPromptCell.instantiate()
-					prompt.position = real_pos
-					var label = prompt.get_node("Label")
-					label.text = prompt_string
-					add_child(prompt)
-				else:
-					print("type of existing obj ", cell_content.state)
+			
+			if generate_prompt_obj:
+				var prompt = prefabPromptCell.instantiate()
+				prompt.position = real_pos
+				var label = prompt.get_node("Label")
+				label.text = prompt_string
+				add_child(prompt)
+
 				
 	
 func analyze_neighbors(pos):
