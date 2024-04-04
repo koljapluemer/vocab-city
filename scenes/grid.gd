@@ -41,33 +41,40 @@ func world_to_grid(_pos: Vector2) -> Vector2:
 func get_cell_state(_pos: Vector2):
 	if grid.has(_pos):
 		if grid[_pos].has("state"):
-			return grid[_pos].contents
+			return grid[_pos].state
 	return null
 
 func is_cell_free(_pos: Vector2):
 	return get_cell_state(_pos) == null || get_cell_state(_pos) == "empty"
 
 func edit_cell(pos, new_state, objects_to_add):
+	print("editing cell at", pos)
 	if !grid.has(pos):
 		grid[pos] = {}
 	grid[pos]["state"] = new_state
 	grid[pos]["objects"] = objects_to_add
+	grid[pos]["data"] = {
+		"native_word": objects_to_add[0].get_node("LabelNative").text,
+		"target_word": objects_to_add[0].get_node("LabelTarget").text,
+	}
 	set_cell_background(pos)
 
 
 func set_cell_background(pos):
 	if !grid.has(pos):
 		return
-	if !grid[pos].has("bg_obj"):
-		print("setting cell bg for", pos)
-		var cell_node = prefabCell.instantiate()
-		var cell_pos = grid_to_world(pos)
-		print("cell pos:", cell_pos)
-		cell_node.set_position(cell_pos)
-		grid[pos]["bg_obj"] = cell_node
-		add_child(cell_node)
+	print("setting cell bg for", pos)
+	var cell_node = prefabCell.instantiate()
+	var cell_pos = grid_to_world(pos)
+	print("cell pos:", cell_pos)
+	cell_node.set_position(cell_pos)
+	grid[pos]["bg_obj"] = cell_node
+	add_child(cell_node)
 
 # Main Loop 
+
+func _ready():
+	load_grid()
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_right")):
@@ -100,7 +107,7 @@ func _on_dialog_confirm():
 	var native_word = get_node("NewWordDialog").get_node("EditNative").text
 	var target_word =  get_node("NewWordDialog").get_node("EditTarget").text
 	add_vocab_node(native_word, target_word, activeMapCoords.x, activeMapCoords.y)
-	# save_vocabs()
+	save_grid()
 	close_dialog()
 
 
@@ -113,11 +120,8 @@ func close_dialog():
 	dialog.queue_free()
 
 func add_vocab_node(native_word, target_word, x, y):
+	print("adding vocab node:", native_word, target_word, x, y)
 	var gridPos = Vector2(x, y)
-	# skip if tile is already occupied
-	if !is_cell_free(Vector2(x, y)):
-		print("location occupied")
-		return
 		
 	var ui_obj = prefabVocabUI.instantiate()
 	var textPos = grid_to_world(gridPos)
@@ -129,3 +133,23 @@ func add_vocab_node(native_word, target_word, x, y):
 	add_child(ui_obj)
 	
 	edit_cell(gridPos, "vocab", [ui_obj])
+
+
+# Saving and Loading
+func save_grid():
+	var save_game = FileAccess.open("user://vocab-city-grid.save", FileAccess.WRITE)
+	save_game.store_var(grid)
+	print("saved")
+
+func load_grid():
+	var path = "user://vocab-city-grid.save"
+	if not FileAccess.file_exists(path):
+		print("no save file found")
+		return
+
+	var save_game = FileAccess.open(path, FileAccess.READ)
+	grid = save_game.get_var()
+	for cell in grid:
+		if grid[cell].has("state"):
+			if grid[cell]["state"] == "vocab":
+				add_vocab_node(grid[cell]["data"]["native_word"], grid[cell]["data"]["target_word"], cell.x, cell.y)
