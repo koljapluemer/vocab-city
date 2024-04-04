@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://ytya6ehnoqxs"]
 
 [node name="TilePrompt" type="Label"]
-offset_right = 156.0
-offset_bottom = 23.0
+offset_left = 72.0
+offset_top = 63.0
+offset_right = 228.0
+offset_bottom = 86.0
 text = "do something :("
 autowrap_mode = 3

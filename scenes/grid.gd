@@ -53,12 +53,22 @@ func edit_cell(pos, new_state, objects_to_add):
 		grid[pos] = {}
 	grid[pos]["state"] = new_state
 	grid[pos]["objects"] = objects_to_add
-	grid[pos]["data"] = {
-		"native_word": objects_to_add[0].get_node("LabelNative").text,
-		"target_word": objects_to_add[0].get_node("LabelTarget").text,
-	}
+	if new_state == "vocab":
+		grid[pos]["data"] = {
+			"native_word": objects_to_add[0].get_node("LabelNative").text,
+			"target_word": objects_to_add[0].get_node("LabelTarget").text,
+		}
 	set_cell_background(pos)
 
+func delete_cell_at_grid_pos(pos):
+	if !grid.has(pos):
+		return
+	if grid[pos].has("bg_obj"):
+		grid[pos]["bg_obj"].queue_free()
+	if grid[pos].has("objects"):
+		for obj in grid[pos]["objects"]:
+			obj.queue_free()
+	grid.erase(pos)
 
 func set_cell_background(pos):
 	if !grid.has(pos):
@@ -133,7 +143,69 @@ func add_vocab_node(native_word, target_word, x, y):
 	add_child(ui_obj)
 	
 	edit_cell(gridPos, "vocab", [ui_obj])
+	mark_neighbor_tiles(gridPos)
 
+func mark_neighbor_tiles(pos):
+	var neighbor_positions = [
+		Vector2(pos.x + 1, pos.y),
+		Vector2(pos.x - 1, pos.y),
+		Vector2(pos.x, pos.y + 1),
+		Vector2(pos.x, pos.y -1),
+	]
+	for p in neighbor_positions:
+		var words = analyze_neighbors(p)
+		if len(words) > 0:
+			var real_pos = grid_to_world(p)
+			var adjusted_pos = Vector2(real_pos.x -50, real_pos.y -50)
+			var prompt_string = "Add something related to "
+			var i = 0
+			for word in words:
+				if i > 0:
+					prompt_string += " and "
+				prompt_string += word
+				i += 1
+			print("prompt string:", prompt_string)
+			if p in grid:
+				var cell_content = grid[p]
+				print("cell content so far:", cell_content)
+				var generate_prompt_obj = false
+				# we want a new prompt cell if the cell is null
+				if !cell_content:
+					generate_prompt_obj = true
+				# also we want to overwrite shorter prompts
+				if "state" in cell_content:
+					if cell_content.state == "prompt":
+						print("cell: ", cell_content.objects[0])
+						if len(cell_content.objects[0].obj.text) < len(prompt_string):
+							delete_cell_at_grid_pos(p)
+							generate_prompt_obj = true
+				
+				
+				if generate_prompt_obj:
+					var prompt = prefabTilePrompt.instantiate()
+					prompt.position = adjusted_pos
+					prompt.text = prompt_string
+					add_child(prompt)
+				else:
+					print("type of existing obj ", cell_content.state)
+				
+	
+func analyze_neighbors(pos):
+	var neighboring_words = []
+	var positions_to_check = [
+		Vector2(pos.x + 1, pos.y),
+		Vector2(pos.x - 1, pos.y),
+		Vector2(pos.x, pos.y + 1),
+		Vector2(pos.x, pos.y -1),
+	]
+	for p in positions_to_check:
+		if p in grid:
+			if "state" in grid[p]:
+				if grid[p].state == "vocab":
+					var vocab = grid[p]
+					neighboring_words.append(vocab["data"].target_word)
+	return neighboring_words
+	
 
 # Saving and Loading
 func save_grid():
