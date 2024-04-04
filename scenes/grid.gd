@@ -75,7 +75,7 @@ func open_dialog(x, y):
 func _on_dialog_confirm():
 	var native_word = get_node("NewWordDialog").get_node("EditNative").text
 	var target_word =  get_node("NewWordDialog").get_node("EditTarget").text
-	# add_vocab_node(native_word, target_word, activeMapCoords.x, activeMapCoords.y)
+	add_vocab_node(native_word, target_word, activeMapCoords.x, activeMapCoords.y)
 	# save_vocabs()
 	close_dialog()
 
@@ -87,3 +87,24 @@ func close_dialog():
 	editModeActive = false
 	var dialog = get_node("NewWordDialog")
 	dialog.queue_free()
+
+func add_vocab_node(native_word, target_word, x, y):
+	var pos = Vector2(x, y)
+	# skip if tile is already occupied
+	if !is_cell_free(Vector2(x, y)):
+		print("location occupied")
+		return
+		
+	var ui_obj = prefabVocabUI.instantiate()
+	var textPos = world_to_grid(pos)
+	ui_obj.set_position(Vector2(textPos.x - 64, textPos.y - 100))
+	print("ui", ui_obj.name)
+	ui_obj.get_node("LabelTarget").text = target_word
+	ui_obj.get_node("LabelNative").text = native_word
+	add_child(ui_obj)
+	
+	var vocab = Vocab.new(native_word, target_word, x, y, ui_obj)
+
+	# set_cell(0, Vector2(x, y), 0, Vector2(0,0))
+	
+	# mark_neighbor_tiles(Vector2(x, y))
