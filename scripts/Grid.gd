@@ -6,7 +6,7 @@ static var cell_size: int = 16
 
 var grid: Dictionary = {}
 var editModeActive = false
-var activeMapCoords 
+var activeCellPos = null
 
 
 # Grid Helper Functions
@@ -37,12 +37,17 @@ func get_or_create_cell_at(mapPos):
 
 func handle_right_click(pos):
 	var mapPos = Grid.pos_to_grid_pos(pos)
-	if !get_cell_state(mapPos) == "none":
-		delete_cell_at_grid_pos(mapPos)
-	else:
+	if get_cell_state(mapPos) == "none":
 		var cell = get_or_create_cell_at(mapPos)
 		cell.set_state_empty()
 		add_child(cell.node)
+	# make sidebar visible (except if player clicks activeCell, then hide)
+	if activeCellPos != mapPos:
+		$SideBar.show()
+		activeCellPos = mapPos
+	else:
+		$SideBar.hide()
+		activeCellPos = null
 
 
 

@@ -18,3 +18,4 @@
 - ran initial experiments with [this tilemap asset](https://kenney.nl/assets/pixel-platformer-blocks)
 - camera movement inspired by [this tutorial](https://www.youtube.com/watch?v=KHYk44x2rqM&list=PLM-hFhoXjVl1hq0j9lxgRCzxkBpDZhDlT&index=2)
 - now using [this asset pack](https://kenney.nl/assets/tiny-battle)
+- generally using [this tutorial](https://www.youtube.com/watch?v=p5VjaydbTF0&list=PLM-hFhoXjVl1hq0j9lxgRCzxkBpDZhDlT) a lot
