@@ -44,11 +44,16 @@ func handle_right_click(pos):
 	# make sidebar visible (except if player clicks activeCell, then hide)
 	if activeCellPos != mapPos:
 		$SideBar.show()
-		activeCellPos = mapPos
+		set_new_cell_active(mapPos)
 	else:
 		$SideBar.hide()
 		activeCellPos = null
+		grid[mapPos].set_inactive()
 
-
+func set_new_cell_active(mapPos):
+	if activeCellPos != null:
+		grid[activeCellPos].set_inactive()
+	activeCellPos = mapPos
+	grid[activeCellPos].set_active()
 
 
