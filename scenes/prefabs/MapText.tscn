@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b1v60xbttxfw8"]
+
+[node name="MapText" type="Label"]
+offset_right = 156.0
+offset_bottom = 23.0
+scale = Vector2(0.15, 0.15)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+theme_override_font_sizes/font_size = 0
+vertical_alignment = 1

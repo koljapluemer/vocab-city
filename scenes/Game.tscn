@@ -22,7 +22,7 @@ script = ExtResource("2_3dy6c")
 [node name="SideBar" type="CanvasLayer" parent="Grid"]
 visible = false
 
-[node name="PanelContainer" type="PanelContainer" parent="Grid/SideBar"]
+[node name="Panel" type="PanelContainer" parent="Grid/SideBar"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -32,35 +32,37 @@ grow_horizontal = 0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_folk3")
 
-[node name="Container" type="VBoxContainer" parent="Grid/SideBar/PanelContainer"]
+[node name="Container" type="VBoxContainer" parent="Grid/SideBar/Panel"]
 material = SubResource("CanvasItemMaterial_jo6pu")
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="Grid/SideBar/PanelContainer/Container"]
+[node name="Label" type="Label" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Native"
 
-[node name="EditNative" type="LineEdit" parent="Grid/SideBar/PanelContainer/Container"]
+[node name="EditNative" type="LineEdit" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Grid/SideBar/PanelContainer/Container"]
+[node name="Label2" type="Label" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 0
 text = "Target"
 
-[node name="EditTarget" type="LineEdit" parent="Grid/SideBar/PanelContainer/Container"]
+[node name="EditTarget" type="LineEdit" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 
-[node name="ButtonConfirm" type="Button" parent="Grid/SideBar/PanelContainer/Container"]
+[node name="ButtonConfirm" type="Button" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 text = "Confirm"
 
-[node name="ButtonCancel" type="Button" parent="Grid/SideBar/PanelContainer/Container"]
+[node name="ButtonCancel" type="Button" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 text = "Cancel"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_h5ih3")
+
+[connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonConfirm" to="Grid" method="_on_button_confirm_pressed"]
