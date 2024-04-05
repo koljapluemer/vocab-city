@@ -10,7 +10,7 @@ static var vocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png")
 
 var mapPos: Vector2
 var objects: Array
-var state
+var state = ""
 var targetWord = ""
 var nativeWord = ""
 var node: Sprite2D
@@ -70,3 +70,14 @@ func set_inactive():
 	isActive = false
 	if state == "empty":
 		node.set_texture(textureEmpty)
+
+## Saving
+
+func get_dict():
+	var dict = {
+		"mapPos": mapPos,
+		"state": state,
+		"targetWord": targetWord,
+		"nativeWord": nativeWord
+	}
+	return dict

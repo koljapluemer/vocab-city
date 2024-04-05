@@ -40,7 +40,7 @@ func handle_right_click(pos):
 	if get_cell_state(mapPos) == "none":
 		var cell = get_or_create_cell_at(mapPos)
 		cell.set_state_empty()
-		add_child(cell.node)
+		add_child(cell)
 	# make sidebar visible (except if player clicks activeCell, then hide)
 	if activeCellPos != mapPos:
 		$SideBar.show()
@@ -49,6 +49,7 @@ func handle_right_click(pos):
 		$SideBar.hide()
 		activeCellPos = null
 		grid[mapPos].set_inactive()
+	save_grid()
 
 func set_new_cell_active(mapPos):
 	if activeCellPos != null:
@@ -63,6 +64,33 @@ func _on_button_confirm_pressed():
 	var native = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative").text
 	var target = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget").text
 	cell.set_state_vocab(self, target, native)
-	# todo: awkward and prone to break
-	# add_child(cell.objects[0])
 
+
+
+# Saving and Loading
+func save_grid():
+	var save_game = FileAccess.open("user://vocab-city-grid.save", FileAccess.WRITE)
+	var save_grid = {}
+	# loop through grid and save each cell as sub-dictionary
+	for cell in grid:
+		save_grid[cell] = grid[cell].get_dict()
+	save_game.store_var(save_grid)
+	print("saved")
+
+func load_grid():
+	
+	var path = "user://vocab-city-grid.save"
+	if not FileAccess.file_exists(path):
+		print("no save file found")
+		return
+
+	var save_game = FileAccess.open(path, FileAccess.READ)
+	var save_grid = save_game.get_var()
+	for cell in save_grid:
+		# create the correct cell
+		var cell_inst = get_or_create_cell_at(cell)
+		# set the state of the cell
+		if save_grid[cell]["state"] == "empty":
+			cell_inst.set_state_empty()
+		elif save_grid[cell]["state"] == "vocab":
+			cell_inst.set_state_vocab(self, save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])

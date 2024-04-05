@@ -8,3 +8,5 @@ func _physics_process(_delta):
 		var pos = get_global_mouse_position()
 		grid.handle_right_click(pos)
 
+func _ready():
+	grid.load_grid()
