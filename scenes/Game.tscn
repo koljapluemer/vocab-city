@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://drkxho6vtr6u4"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_o0i1w"]
+[ext_resource type="Script" path="res://scripts/Grid.gd" id="2_3dy6c"]
+[ext_resource type="PackedScene" uid="uid://co7by45gom5nw" path="res://scenes/prefabs/Cell.tscn" id="3_jbgu2"]
+[ext_resource type="Script" path="res://scripts/Camera2D.gd" id="4_h5ih3"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_o0i1w")
+
+[node name="Grid" type="Node" parent="."]
+script = ExtResource("2_3dy6c")
+
+[node name="Cell" parent="." instance=ExtResource("3_jbgu2")]
+position = Vector2(120, 48)
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_h5ih3")

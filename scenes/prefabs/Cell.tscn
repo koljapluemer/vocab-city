@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7sb4lswba0gd"]
+[gd_scene load_steps=2 format=3 uid="uid://co7by45gom5nw"]
 
-[ext_resource type="Texture2D" uid="uid://c7i5n5e3sl1fe" path="res://assets/big_tile.png" id="1_glsxg"]
+[ext_resource type="Texture2D" uid="uid://d3kkaq4ls23g5" path="res://assets/Kenney_Tiles/tile_0037.png" id="1_847cq"]
 
 [node name="Cell" type="Sprite2D"]
-z_index = -3
-texture = ExtResource("1_glsxg")
+texture_filter = 1
+texture = ExtResource("1_847cq")
 centered = false
