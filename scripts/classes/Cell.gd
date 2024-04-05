@@ -16,10 +16,17 @@ func _init(_mapPos):
 	mapPos = _mapPos
 	objects = []
 	state = "none"
-	node = prefabCell.instantiate()
-	node.position = mapPos * Grid.cell_size
-	
+
+func create_node_if_not_existing():
+	if node == null:
+		node = prefabCell.instantiate()
+		node.position = mapPos * Grid.cell_size
 
 func set_state_empty():
+	create_node_if_not_existing()
 	state = "empty"
-	#set_texture(load("res://assets/Kenney_Tiles/tile_0000.png"))
+	node.set_texture(load("res://assets/Kenney_Tiles/tile_0000.png"))
+	
+func set_state_none():
+	state = "none"
+	node.queue_free()

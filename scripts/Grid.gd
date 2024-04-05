@@ -8,6 +8,7 @@ var grid: Dictionary = {}
 var editModeActive = false
 var activeMapCoords 
 
+
 # Grid Helper Functions
 
 static func grid_pos_to_pos(_pos: Vector2) -> Vector2:
@@ -19,12 +20,12 @@ static func pos_to_grid_pos(_pos: Vector2) -> Vector2:
 func delete_cell_at_grid_pos(pos):
 	if !grid.has(pos):
 		return
-	grid[pos].delete()
+	grid[pos].set_state_none()
 	grid.erase(pos)
 
 func get_cell_state(pos):
 	if !grid.has(pos):
-		return "empty"
+		return "none"
 	return grid[pos].state
 
 func get_or_create_cell_at(mapPos):
@@ -35,12 +36,14 @@ func get_or_create_cell_at(mapPos):
 # Taking input
 
 func handle_right_click(pos):
-	print("Handling Right Click in Grid")
 	var mapPos = Grid.pos_to_grid_pos(pos)
-	var cell = get_or_create_cell_at(mapPos)
-	add_child(cell.node)
-	print("got cell: ", cell)
-	cell.set_state_empty()
+	if !get_cell_state(mapPos) == "none":
+		delete_cell_at_grid_pos(mapPos)
+	else:
+		var cell = get_or_create_cell_at(mapPos)
+		cell.set_state_empty()
+		add_child(cell.node)
+
 
 
 
