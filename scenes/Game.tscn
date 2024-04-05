@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://drkxho6vtr6u4"]
+[gd_scene load_steps=6 format=3 uid="uid://drkxho6vtr6u4"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_o0i1w"]
 [ext_resource type="Script" path="res://scripts/Grid.gd" id="2_3dy6c"]
-[ext_resource type="PackedScene" uid="uid://xxydobu82bat" path="res://scenes/UI/SideBar.tscn" id="4_5jyp2"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="4_h5ih3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_folk3"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.968627, 0.968627, 0.968627, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jo6pu"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_o0i1w")
@@ -11,8 +19,48 @@ script = ExtResource("1_o0i1w")
 [node name="Grid" type="Node" parent="."]
 script = ExtResource("2_3dy6c")
 
-[node name="SideBar" parent="Grid" instance=ExtResource("4_5jyp2")]
-follow_viewport_scale = 0.5
+[node name="SideBar" type="CanvasLayer" parent="Grid"]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="Grid/SideBar"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_bottom = 296.0
+grow_horizontal = 0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_folk3")
+
+[node name="Container" type="VBoxContainer" parent="Grid/SideBar/PanelContainer"]
+material = SubResource("CanvasItemMaterial_jo6pu")
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Grid/SideBar/PanelContainer/Container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Native"
+
+[node name="EditNative" type="LineEdit" parent="Grid/SideBar/PanelContainer/Container"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Grid/SideBar/PanelContainer/Container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 0
+text = "Target"
+
+[node name="EditTarget" type="LineEdit" parent="Grid/SideBar/PanelContainer/Container"]
+layout_mode = 2
+
+[node name="ButtonConfirm" type="Button" parent="Grid/SideBar/PanelContainer/Container"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="ButtonCancel" type="Button" parent="Grid/SideBar/PanelContainer/Container"]
+layout_mode = 2
+text = "Cancel"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_h5ih3")
