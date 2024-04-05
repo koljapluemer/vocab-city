@@ -29,8 +29,13 @@ func get_cell_state(pos):
 	return grid[pos].state
 
 func get_or_create_cell_at(mapPos):
+	print("get_or_create_cell_at", mapPos)
 	if !grid.has(mapPos):
-		grid[mapPos] = Cell.new(mapPos)
+		print("creating new cell at", mapPos)
+		var cell = Cell.new(mapPos)
+		print("cell created", cell)
+		add_child(cell.node)
+		grid[mapPos] = cell
 	return grid[mapPos]
 
 # Taking input
@@ -40,7 +45,7 @@ func handle_right_click(pos):
 	if get_cell_state(mapPos) == "none":
 		var cell = get_or_create_cell_at(mapPos)
 		cell.set_state_empty()
-		add_child(cell)
+		add_child(cell.node)
 	# make sidebar visible (except if player clicks activeCell, then hide)
 	if activeCellPos != mapPos:
 		$SideBar.show()
@@ -76,6 +81,7 @@ func save_grid():
 		save_grid[cell] = grid[cell].get_dict()
 	save_game.store_var(save_grid)
 	print("saved")
+	save_game.close()
 
 func load_grid():
 	
@@ -91,6 +97,8 @@ func load_grid():
 		var cell_inst = get_or_create_cell_at(cell)
 		# set the state of the cell
 		if save_grid[cell]["state"] == "empty":
+			print("setting empty")
 			cell_inst.set_state_empty()
 		elif save_grid[cell]["state"] == "vocab":
+			print("setting vocab")
 			cell_inst.set_state_vocab(self, save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])

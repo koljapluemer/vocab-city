@@ -1,8 +1,8 @@
 class_name Cell
 extends Node2D
 
-static var prefabCell = load("res://scenes/prefabs/Cell.tscn")
-static var prefabMapText = load("res://scenes/prefabs/MapText.tscn")
+var prefabCell = load("res://scenes/prefabs/Cell.tscn")
+var prefabMapText = load("res://scenes/prefabs/MapText.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
@@ -21,16 +21,13 @@ func _init(_mapPos):
 	mapPos = _mapPos
 	objects = []
 	state = "none"
-
-func create_node_if_not_existing():
-	if node == null:
-		node = prefabCell.instantiate()
-		node.position = mapPos * Grid.cell_size
+	node = prefabCell.instantiate()
+	node.position = mapPos * Grid.cell_size
+	print("init node: ", node, " at ", node.position)
 
 ## States
 
 func set_state_empty():
-	create_node_if_not_existing()
 	state = "empty"
 	node.set_texture(textureEmpty)
 	
@@ -42,7 +39,6 @@ func set_state_vocab(parent, _targetWord, _nativeWord):
 	state = "vocab"
 	targetWord = _targetWord
 	nativeWord = _nativeWord
-	create_node_if_not_existing()
 	node.set_texture(vocabLevelOne)
 	# create label with target
 	var mapText = prefabMapText.instantiate()
@@ -54,19 +50,15 @@ func set_state_vocab(parent, _targetWord, _nativeWord):
 
 	objects.append(mapText)
 	parent.add_child(mapText)
-	
-
 
 ## Active / Inactive
 
 func set_active():
-	create_node_if_not_existing()
 	isActive = true
 	if state == "empty":
 		node.set_texture(textureEmptyActive)
 
 func set_inactive():
-	create_node_if_not_existing()
 	isActive = false
 	if state == "empty":
 		node.set_texture(textureEmpty)

@@ -9,4 +9,5 @@ func _physics_process(_delta):
 		grid.handle_right_click(pos)
 
 func _ready():
+	# return
 	grid.load_grid()
