@@ -22,7 +22,10 @@ func _init(_mapPos):
 	objects = {}
 	state = "none"
 	node = prefabCell.instantiate()
-	node.position = mapPos * Grid.cell_size
+	# mapPos to local gives top left corner of cell, but we want center
+	var pos_x = mapPos.x * Grid.cell_size + Grid.cell_size / 2.0
+	var pos_y = mapPos.y * Grid.cell_size + Grid.cell_size / 2.0
+	node.set_position(Vector2(pos_x, pos_y))
 	node.mouse_entered.connect(_on_mouse_entered)
 	node.mouse_exited.connect(_on_mouse_exited)
 
@@ -36,7 +39,7 @@ func set_state_none():
 	state = "none"
 	node.queue_free()
 
-func set_state_vocab(parent, _targetWord, _nativeWord):
+func set_state_vocab(_targetWord, _nativeWord):
 	state = "vocab"
 	targetWord = _targetWord
 	nativeWord = _nativeWord

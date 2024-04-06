@@ -68,7 +68,7 @@ func _on_button_confirm_pressed():
 	var cell = grid[activeCellPos]
 	var native = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative").text
 	var target = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget").text
-	cell.set_state_vocab(self, target, native)
+	cell.set_state_vocab(target, native)
 
 
 
@@ -101,4 +101,4 @@ func load_grid():
 			cell_inst.set_state_empty()
 		elif save_grid[cell]["state"] == "vocab":
 			print("setting vocab")
-			cell_inst.set_state_vocab(self, save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])
+			cell_inst.set_state_vocab(save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])
