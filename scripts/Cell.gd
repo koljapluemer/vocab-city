@@ -43,7 +43,7 @@ func set_state_vocab(parent, _targetWord, _nativeWord):
 	node.get_node("Tile").set_texture(vocabLevelOne)
 	# create label with target
 	var mapText = prefabMapText.instantiate()
-	mapText.set_text(targetWord)
+	mapText.get_node("Label").set_text(targetWord)
 	objects["mapText"] = mapText
 	node.add_child(mapText)
 
@@ -75,9 +75,9 @@ func get_dict():
 func _on_mouse_entered():
 	# if vocab, show native word 
 	if state == "vocab":
-		objects["mapText"].set_text(nativeWord)
+		objects["mapText"].get_node("Label").set_text(nativeWord)
 
 func _on_mouse_exited():
 	# if vocab, show target word again
 	if state == "vocab":
-		objects["mapText"].set_text(targetWord)
+		objects["mapText"].get_node("Label").set_text(targetWord)
