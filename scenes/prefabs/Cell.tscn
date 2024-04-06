@@ -1,8 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://co7by45gom5nw"]
+[gd_scene load_steps=4 format=3 uid="uid://co7by45gom5nw"]
 
-[ext_resource type="Texture2D" uid="uid://d3kkaq4ls23g5" path="res://assets/Kenney_Tiles/tile_0037.png" id="1_847cq"]
+[ext_resource type="Script" path="res://scripts/Cell.gd" id="1_paysm"]
+[ext_resource type="Texture2D" uid="uid://b44yy7y8ki3q4" path="res://assets/Kenney_Tiles/tile_0003.png" id="1_y67hv"]
 
-[node name="Cell" type="Sprite2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sy0xx"]
+size = Vector2(16, 16)
+
+[node name="Cell" type="Area2D"]
 texture_filter = 1
-texture = ExtResource("1_847cq")
+script = ExtResource("1_paysm")
+
+[node name="Tile" type="Sprite2D" parent="."]
+texture = ExtResource("1_y67hv")
 centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sy0xx")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
