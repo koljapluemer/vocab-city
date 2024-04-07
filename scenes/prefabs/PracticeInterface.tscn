@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmk0tqy5poyia"]
+[gd_scene load_steps=6 format=3 uid="uid://bmk0tqy5poyia"]
 
 [ext_resource type="Script" path="res://scripts/PracticeInterface.gd" id="1_huuyt"]
 
@@ -6,6 +6,12 @@
 bg_color = Color(1, 1, 1, 0.945098)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dorhj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wk7ke"]
+bg_color = Color(0.458824, 0.364706, 0.858824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_su11u"]
+bg_color = Color(0.458824, 0.364706, 0.858824, 1)
 
 [node name="PracticeInterface" type="CanvasLayer"]
 layer = 10
@@ -46,10 +52,14 @@ text = "What does kitaab mean?"
 
 [node name="Answer1" type="Button" parent="Panel/Container/VBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wk7ke")
 text = "Answer A"
 
 [node name="Answer2" type="Button" parent="Panel/Container/VBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/pressed = SubResource("StyleBoxFlat_su11u")
 text = "Answer B"
 
 [node name="CloseButton" type="Button" parent="."]

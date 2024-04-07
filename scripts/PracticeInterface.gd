@@ -2,6 +2,7 @@ extends CanvasLayer
 
 var grid
 var filteredGrid = {}
+var correctAnswer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,7 +18,7 @@ func set_random_vocab():
 	var questionEl = get_node("Panel/Container/VBox/QuestionLabel")
 	questionEl.text = correctGridCell.nativeWord
 	# answer options
-	var correctAnswer = correctGridCell.targetWord
+	correctAnswer = correctGridCell.targetWord
 	var incorrectAnswer = get_random_vocab().targetWord
 	# with 50% probability, swap correct and incorrect answers
 	var answer1El = get_node("Panel/Container/VBox/Answer1")
@@ -54,7 +55,13 @@ func _on_answer_2_pressed():
 
 func handle_answer_pressed(el):
 	var valueOfAnswer = get_node(el).text
-	set_random_vocab()
+	if valueOfAnswer == correctAnswer:
+		set_random_vocab()
+	else:
+		var wrongAnswerEl = get_node(el)
+		wrongAnswerEl.set("theme_override_font_sizes/font_color", Color(1, 0, 0))
+		await get_tree().create_timer(1).timeout
+		wrongAnswerEl.set("theme_override_font_sizes/font_color", Color(1, 0, 0))
 
 
 func _on_close_button_pressed():
