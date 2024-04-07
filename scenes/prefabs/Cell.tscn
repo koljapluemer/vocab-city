@@ -4,18 +4,18 @@
 [ext_resource type="Texture2D" uid="uid://b44yy7y8ki3q4" path="res://assets/Kenney_Tiles/tile_0003.png" id="1_y67hv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sy0xx"]
-size = Vector2(16, 16)
+size = Vector2(256, 256)
 
 [node name="Cell" type="Area2D"]
 texture_filter = 1
 script = ExtResource("1_paysm")
 
 [node name="Tile" type="Sprite2D" parent="."]
-position = Vector2(-8, -8)
+scale = Vector2(16, 16)
 texture = ExtResource("1_y67hv")
-centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 11
 shape = SubResource("RectangleShape2D_sy0xx")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

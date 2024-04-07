@@ -2,7 +2,7 @@ class_name Cell
 extends Node2D
 
 static var prefabCell = load("res://scenes/prefabs/Cell.tscn")
-static var prefabMapText = load("res://scenes/prefabs/MapText.tscn")
+static var prefabMapText = load("res://scenes/prefabs/Text.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
@@ -59,9 +59,9 @@ func set_state_empty(_promptString = ""):
 			var mapText = prefabMapText.instantiate()
 			objects["mapText"] = mapText
 			node.add_child(mapText)
-		objects["mapText"].get_node("Label").set_text(_promptString)
+		objects["mapText"].set_text('[center]'+_promptString+'[/center]')
 		prompt = _promptString
-		objects["mapText"].get_node("Label").set("theme_override_font_sizes/font_size", 5)
+		#objects["mapText"].set("theme_override_font_sizes/font_size", 5)
 
 func set_state_none():
 	# means water
@@ -79,10 +79,10 @@ func set_state_vocab(_targetWord, _nativeWord):
 		node.get_node("Tile").set_texture(textureVocabLevelThree)
 	# create label with target
 	var mapText = prefabMapText.instantiate()
-	mapText.get_node("Label").set_text(targetWord)
+	mapText.set_text('[center]'+_targetWord+'[/center]')
 	objects["mapText"] = mapText
 	prompt = ""
-	objects["mapText"].get_node("Label").set("theme_override_font_sizes/font_size", 15)
+	#objects["mapText"].set("theme_override_font_sizes/font_size", 15)
 	node.add_child(mapText)
 
 
@@ -117,14 +117,14 @@ func get_dict():
 ## Hover
 
 func _on_mouse_entered():
-	# if vocab, show native word 
+	# if vocab, show native word (TODO: seems broken)
 	if state == "vocab":
-		objects["mapText"].get_node("Label").set_text(nativeWord)
+		objects["mapText"].set_text('[center]'+nativeWord+'[/center]')
 
 func _on_mouse_exited():
 	# if vocab, show target word again
 	if state == "vocab":
-		objects["mapText"].get_node("Label").set_text(targetWord)
+		objects["mapText"].set_text('[center]'+targetWord+'[/center]')
 
 
 ## Scoring

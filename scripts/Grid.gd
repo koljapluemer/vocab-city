@@ -3,7 +3,7 @@ extends Node
 
 # Setup
 
-static var cell_size: int = 16
+static var cell_size: int = 256
 
 var grid: Dictionary = {}
 var editModeActive = false
@@ -168,7 +168,6 @@ func load_grid():
 		# sr
 		if "sr" in save_grid[cell]:
 			cell_inst.sr = save_grid[cell]["sr"]
-			print("found sr: ", cell_inst.sr)
 		# set the state of the cell
 		if save_grid[cell]["state"] == "empty":
 			var prompt = ""

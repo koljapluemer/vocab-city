@@ -28,3 +28,10 @@ q-type:
 
 
 - could use [this tut](https://www.youtube.com/playlist?list=PL3cGrGHvkwn3zyVj-lHM1aGYhNv8E0HBS) to learn about eco and what not
+
+- big problem now: SR isn't integrated into real game flow, so...why bother
+    - maybe first step: SR game is a "building", not a UI you can open
+        - would be diegetic, almost Factorio level manual farming
+            - ...but where is the automation satisfaction later on?
+            - or is this whole thing solved when economy motivates me? And connections how?
+                - no, more specifically, how do I get myself to *revisit* tiles...?

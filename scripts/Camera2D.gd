@@ -1,11 +1,11 @@
 extends Camera2D
-var zoomSpeed: float = 0.04
+var zoomSpeed: float = 0.02
 var zoomMin: float = 0.001
-var zoomMax: float = 15.0
-var dragSensitivity: float = 2.0
+var zoomMax: float = 2.0
+var dragSensitivity: float = 1.0
 
 func _ready():
-	zoom = Vector2(10.0, 10.0)
+	zoom = Vector2(1.0, 1.0)
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
