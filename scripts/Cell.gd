@@ -46,6 +46,7 @@ func set_state_empty(_promptString = ""):
 			node.add_child(mapText)
 		objects["mapText"].get_node("Label").set_text(_promptString)
 		prompt = _promptString
+		objects["mapText"].get_node("Label").set("theme_override_font_sizes/font_size", 5)
 
 func set_state_none():
 	# means water
@@ -60,6 +61,8 @@ func set_state_vocab(_targetWord, _nativeWord):
 	var mapText = prefabMapText.instantiate()
 	mapText.get_node("Label").set_text(targetWord)
 	objects["mapText"] = mapText
+	prompt = ""
+	objects["mapText"].get_node("Label").set("theme_override_font_sizes/font_size", 15)
 	node.add_child(mapText)
 
 
