@@ -15,3 +15,5 @@ q-type:
 - how to diegetically test/do SR runs?
 
 - if you have an image, make it fade so you are incentived to "clean" it so you actually learn?
+
+- could use something like flags/cars in the driveway/other decoration to allow tags

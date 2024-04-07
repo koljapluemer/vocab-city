@@ -66,10 +66,32 @@ func landfill_surrounding_cells(pos):
 	for dir in surrounding:
 		var newPos = pos + dir
 		# fill in with state empty if it's water (state none)
-		if get_cell_state(newPos) == "none":
+		if get_cell_state(newPos) == "none" or get_cell_state(newPos) == "empty":
 			var cell = get_or_create_cell_at(newPos)
-			cell.set_state_empty()
+			var prompt_string = "add something related to: \n" + generate_prompt_string_from_surrounding(newPos)
+			cell.set_state_empty(prompt_string)
 			add_child(cell.node)
+
+	save_grid()
+
+
+func generate_prompt_string_from_surrounding(pos):
+	var surrounding_pos = [
+		Vector2(0, 1),
+		Vector2(0, -1),
+		Vector2(1, 0),
+		Vector2(-1, 0)
+	]
+	var prompt_addition = ""
+	for directions in surrounding_pos:
+		print("adding pos", directions)
+		var surrPos = pos + directions
+		print("so, pos:", surrPos)
+		if get_cell_state(surrPos) == "vocab":
+			print("target word at " + str(surrPos) + " is " + grid[surrPos].targetWord)
+			prompt_addition += grid[surrPos].targetWord + " "
+	print("found prompt addition: " + prompt_addition)
+	return prompt_addition
 
 # Taking input
 
@@ -149,6 +171,9 @@ func load_grid():
 		var cell_inst = get_or_create_cell_at(cell)
 		# set the state of the cell
 		if save_grid[cell]["state"] == "empty":
-			cell_inst.set_state_empty()
+			var prompt = ""
+			if "prompt" in save_grid[cell]:
+				prompt = save_grid[cell]["prompt"]
+			cell_inst.set_state_empty(prompt)
 		elif save_grid[cell]["state"] == "vocab":
 			cell_inst.set_state_vocab(save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])

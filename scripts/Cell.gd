@@ -14,6 +14,7 @@ var objects: Dictionary
 var state = ""
 var targetWord = ""
 var nativeWord = ""
+var prompt = ""
 var node: Area2D
 var isActive = false
 
@@ -33,11 +34,19 @@ func _init(_mapPos):
 
 ## States
 
-func set_state_empty():
+func set_state_empty(_promptString = ""):
 	# means empty land
 	state = "empty"
 	node.get_node("Tile").set_texture(textureEmpty)
-	
+	if _promptString != "":
+		# check if label exists, otherwise create
+		if "mapText" not in objects:
+			var mapText = prefabMapText.instantiate()
+			objects["mapText"] = mapText
+			node.add_child(mapText)
+		objects["mapText"].get_node("Label").set_text(_promptString)
+		prompt = _promptString
+
 func set_state_none():
 	# means water
 	state = "none"
@@ -52,6 +61,8 @@ func set_state_vocab(_targetWord, _nativeWord):
 	mapText.get_node("Label").set_text(targetWord)
 	objects["mapText"] = mapText
 	node.add_child(mapText)
+
+
 
 ## Active / Inactive
 
@@ -74,7 +85,8 @@ func get_dict():
 		"mapPos": mapPos,
 		"state": state,
 		"targetWord": targetWord,
-		"nativeWord": nativeWord
+		"nativeWord": nativeWord,
+		"prompt": prompt
 	}
 	return dict
 
