@@ -55,6 +55,22 @@ func get_or_create_cell_at(mapPos):
 		grid[mapPos] = cell
 	return grid[mapPos]
 
+
+func landfill_surrounding_cells(pos):
+	var surrounding = [
+		Vector2(0, 1),
+		Vector2(0, -1),
+		Vector2(1, 0),
+		Vector2(-1, 0)
+	]
+	for dir in surrounding:
+		var newPos = pos + dir
+		# fill in with state empty if it's water (state none)
+		if get_cell_state(newPos) == "none":
+			var cell = get_or_create_cell_at(newPos)
+			cell.set_state_empty()
+			add_child(cell.node)
+
 # Taking input
 
 func handle_right_click(pos):
@@ -97,6 +113,7 @@ func _on_button_confirm_pressed():
 	var target = targetInput.text
 
 	cell.set_state_vocab(target, native)
+	landfill_surrounding_cells(activeCellPos)
 	save_grid()
 	reset_side_bar()
 
