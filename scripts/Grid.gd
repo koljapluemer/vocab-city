@@ -66,9 +66,19 @@ func _on_button_confirm_pressed():
 	if activeCellPos == null:
 		return
 	var cell = grid[activeCellPos]
-	var native = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative").text
-	var target = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget").text
+	var nativeInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative")
+	var targetInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget")
+	var native = nativeInput.text
+	var target = targetInput.text
+
 	cell.set_state_vocab(target, native)
+
+	# UI Reset
+	$SideBar.hide()
+	nativeInput.text = ""
+	targetInput.text = ""
+
+
 
 
 
