@@ -6,8 +6,11 @@ static var prefabMapText = load("res://scenes/prefabs/MapText.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
-static var textureVocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png")
 static var textureWater = load("res://assets/Kenney_Tiles/tile_0037.png")
+
+static var textureVocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png")
+static var textureVocabLevelTwo = load("res://assets/Kenney_Tiles/tile_0028.png")
+static var textureVocabLevelThree = load("res://assets/Kenney_Tiles/tile_0029.png")
 
 var mapPos: Vector2
 var objects: Dictionary
@@ -18,6 +21,9 @@ var prompt = ""
 var node: Area2D
 var isActive = false
 
+var sr = {
+	"level": 1
+}
 
 func _init(_mapPos):
 	mapPos = _mapPos
@@ -31,6 +37,15 @@ func _init(_mapPos):
 	node.set_position(Vector2(pos_x, pos_y))
 	node.mouse_entered.connect(_on_mouse_entered)
 	node.mouse_exited.connect(_on_mouse_exited)
+
+
+# Getter / Setter
+
+func get_level():
+	if "level" in sr:
+		return sr["level"]
+	else:
+		return 1
 
 ## States
 
@@ -56,7 +71,12 @@ func set_state_vocab(_targetWord, _nativeWord):
 	state = "vocab"
 	targetWord = _targetWord
 	nativeWord = _nativeWord
-	node.get_node("Tile").set_texture(textureVocabLevelOne)
+	if get_level() == 1:
+		node.get_node("Tile").set_texture(textureVocabLevelOne)
+	if get_level() == 2:
+		node.get_node("Tile").set_texture(textureVocabLevelTwo)
+	if get_level() == 3:
+		node.get_node("Tile").set_texture(textureVocabLevelThree)
 	# create label with target
 	var mapText = prefabMapText.instantiate()
 	mapText.get_node("Label").set_text(targetWord)
@@ -89,7 +109,8 @@ func get_dict():
 		"state": state,
 		"targetWord": targetWord,
 		"nativeWord": nativeWord,
-		"prompt": prompt
+		"prompt": prompt,
+		"sr": sr
 	}
 	return dict
 
@@ -104,3 +125,26 @@ func _on_mouse_exited():
 	# if vocab, show target word again
 	if state == "vocab":
 		objects["mapText"].get_node("Label").set_text(targetWord)
+
+
+## Scoring
+
+func add_score(_score):
+	# check if sr.basicScoreCount exists, otherwise create
+	if "basicScoreCount" not in sr:
+		sr.basicScoreCount = 0
+	sr.basicScoreCount += _score
+
+	if sr.basicScoreCount >= 3:
+		increase_to_level_two()
+	if sr.basicScoreCount >= 6:
+		increase_to_level_three()
+
+func increase_to_level_two():
+	sr.level = 2
+	node.get_node("Tile").set_texture(textureVocabLevelTwo)
+
+func increase_to_level_three():
+	sr.level = 3
+	node.get_node("Tile").set_texture(textureVocabLevelThree)
+

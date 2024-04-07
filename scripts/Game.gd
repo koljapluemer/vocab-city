@@ -16,11 +16,15 @@ func _physics_process(_delta):
 
 func _on_practice_button_pressed():
 	if practiceUIOpen:
-		get_node("PracticeInterface").queue_free()
-		practiceUIOpen = false
+		close_practice_ui()
 	else:
 		var interface = load("res://scenes/prefabs/PracticeInterface.tscn")
 		var inst = interface.instantiate()
 		inst.grid = grid.grid
 		add_child(inst)
 		practiceUIOpen = true
+
+func close_practice_ui():
+	get_node("PracticeInterface").queue_free()
+	practiceUIOpen = false
+	grid.save_grid()

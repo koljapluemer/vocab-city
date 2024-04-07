@@ -3,6 +3,9 @@ extends CanvasLayer
 var grid
 var filteredGrid = {}
 var correctAnswer
+var correctGridCell
+var incorrectGridCell
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,13 +16,14 @@ func _ready():
 
 
 func set_random_vocab():
-	var correctGridCell = get_random_vocab()
+	correctGridCell = get_random_vocab()
+	incorrectGridCell = get_random_vocab()
 	# set text of Panel/Container/VBox/QuestionLabel to nativeWord
 	var questionEl = get_node("Panel/Container/VBox/QuestionLabel")
 	questionEl.text = correctGridCell.nativeWord
 	# answer options
 	correctAnswer = correctGridCell.targetWord
-	var incorrectAnswer = get_random_vocab().targetWord
+	var incorrectAnswer = incorrectGridCell.targetWord
 	# with 50% probability, swap correct and incorrect answers
 	var answer1El = get_node("Panel/Container/VBox/Answer1")
 	var answer2El = get_node("Panel/Container/VBox/Answer2")
@@ -56,8 +60,17 @@ func _on_answer_2_pressed():
 func handle_answer_pressed(el):
 	var valueOfAnswer = get_node(el).text
 	if valueOfAnswer == correctAnswer:
+		# handle "scoring"
+		correctGridCell.add_score(2)
+		incorrectGridCell.add_score(1)
+
+
 		set_random_vocab()
 	else:
+		# handle "scoring"
+		correctGridCell.add_score(-2)
+		incorrectGridCell.add_score(-1)
+
 		var wrongAnswerEl = get_node(el)
 		wrongAnswerEl.set("theme_override_font_sizes/font_color", Color(1, 0, 0))
 		await get_tree().create_timer(1).timeout
@@ -65,6 +78,5 @@ func handle_answer_pressed(el):
 
 
 func _on_close_button_pressed():
-	get_parent().practiceUIOpen = false
-	queue_free()
+	get_parent().close_practice_ui()
 

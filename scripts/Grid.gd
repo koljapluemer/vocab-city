@@ -165,6 +165,10 @@ func load_grid():
 	for cell in save_grid:
 		# create the correct cell
 		var cell_inst = get_or_create_cell_at(cell)
+		# sr
+		if "sr" in save_grid[cell]:
+			cell_inst.sr = save_grid[cell]["sr"]
+			print("found sr: ", cell_inst.sr)
 		# set the state of the cell
 		if save_grid[cell]["state"] == "empty":
 			var prompt = ""
