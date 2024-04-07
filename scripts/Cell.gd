@@ -57,7 +57,7 @@ func set_state_vocab(_targetWord, _nativeWord):
 
 func set_active():
 	isActive = true
-	if state == "empty":
+	if state == "empty" or state == "none":
 		node.get_node("Tile").set_texture(textureEmptyActive)
 
 func set_inactive():
