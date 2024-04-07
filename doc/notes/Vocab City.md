@@ -25,3 +25,6 @@ q-type:
     - but does make stuff like 1-tile-wide streets possible easily
 
 - how about a fun fact building where you can talk about special rules, grammar, ...
+
+
+- could use [this tut](https://www.youtube.com/playlist?list=PL3cGrGHvkwn3zyVj-lHM1aGYhNv8E0HBS) to learn about eco and what not

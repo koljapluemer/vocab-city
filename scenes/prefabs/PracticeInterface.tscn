@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmk0tqy5poyia"]
+[gd_scene load_steps=4 format=3 uid="uid://bmk0tqy5poyia"]
+
+[ext_resource type="Script" path="res://scripts/PracticeInterface.gd" id="1_huuyt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xt4kp"]
 bg_color = Color(1, 1, 1, 0.945098)
@@ -7,6 +9,7 @@ bg_color = Color(1, 1, 1, 0.945098)
 
 [node name="PracticeInterface" type="CanvasLayer"]
 layer = 10
+script = ExtResource("1_huuyt")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 8
@@ -31,20 +34,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Container"]
+[node name="VBox" type="VBoxContainer" parent="Panel/Container"]
 material = SubResource("CanvasItemMaterial_dorhj")
 layout_mode = 2
 alignment = 1
 
-[node name="QuestionLabel" type="Label" parent="Panel/Container/VBoxContainer"]
+[node name="QuestionLabel" type="Label" parent="Panel/Container/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "What does kitaab mean?"
 
-[node name="Answer1" type="Button" parent="Panel/Container/VBoxContainer"]
+[node name="Answer1" type="Button" parent="Panel/Container/VBox"]
 layout_mode = 2
 text = "Answer A"
 
-[node name="Answer2" type="Button" parent="Panel/Container/VBoxContainer"]
+[node name="Answer2" type="Button" parent="Panel/Container/VBox"]
 layout_mode = 2
 text = "Answer B"
+
+[node name="CloseButton" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 39.0
+grow_horizontal = 0
+text = "x"
+
+[connection signal="pressed" from="Panel/Container/VBox/Answer1" to="." method="_on_answer_1_pressed"]
+[connection signal="pressed" from="Panel/Container/VBox/Answer2" to="." method="_on_answer_2_pressed"]
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

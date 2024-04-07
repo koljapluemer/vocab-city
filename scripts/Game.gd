@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var grid = $Grid
 
+var practiceUIOpen = false
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_right")):
@@ -14,6 +15,12 @@ func _physics_process(_delta):
 
 
 func _on_practice_button_pressed():
-	var interface = load("res://scenes/prefabs/PracticeInterface.tscn")
-	var inst = interface.instantiate()
-	add_child(inst)
+	if practiceUIOpen:
+		get_node("PracticeInterface").queue_free()
+		practiceUIOpen = false
+	else:
+		var interface = load("res://scenes/prefabs/PracticeInterface.tscn")
+		var inst = interface.instantiate()
+		inst.grid = grid.grid
+		add_child(inst)
+		practiceUIOpen = true
