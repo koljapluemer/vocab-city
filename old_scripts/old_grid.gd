@@ -93,14 +93,11 @@ func close_dialog():
 	dialog.queue_free()
 
 func add_vocab_node(native_word, target_word, x, y):
-	print("adding vocab node:", native_word, target_word, x, y)
 	var gridPos = Vector2(x, y)
 		
 	var ui_obj = prefabVocabUI.instantiate()
 	var textPos = CellGrid.grid_pos_to_pos(gridPos)
-	print("setting text at", textPos)
 	ui_obj.set_position(textPos)
-	print("ui", ui_obj.name)
 	ui_obj.get_node("LabelTarget").text = target_word
 	ui_obj.get_node("LabelNative").text = native_word
 	add_child(ui_obj)
@@ -125,7 +122,6 @@ func mark_neighbor_tiles(pos):
 					prompt_string += " and "
 				prompt_string += word
 				i += 1
-			print("prompt string:", prompt_string)
 			
 			var generate_prompt_obj = false
 
@@ -141,7 +137,6 @@ func mark_neighbor_tiles(pos):
 				# also we want to overwrite shorter prompts
 				if "state" in cell_content:
 					if cell_content.state == "prompt":
-						print("cell: ", cell_content.objects[0])
 						if len(cell_content.objects[0].obj.text) < len(prompt_string):
 							delete_cell_at_grid_pos(p)
 							generate_prompt_obj = true
@@ -181,7 +176,6 @@ func analyze_neighbors(pos):
 func save_grid():
 	var save_game = FileAccess.open("user://vocab-city-grid.save", FileAccess.WRITE)
 	save_game.store_var(grid)
-	print("saved")
 
 func load_grid():
 	

@@ -1,12 +1,32 @@
 class_name Grid
 extends Node
 
+# Setup
 
 static var cell_size: int = 16
 
 var grid: Dictionary = {}
 var editModeActive = false
 var activeCellPos = null
+
+var nativeInput 
+var targetInput
+
+func generate_water_grid():
+	# generate 20x20 water tiles (if they are empty)
+	for x in range(20):
+		for y in range(20):
+			var pos = Vector2(x - 10, y - 10)
+			if !grid.has(pos):
+				var cell = Cell.new(pos)
+				grid[pos] = cell
+				add_child(cell.node)
+	
+func _ready():
+	load_grid()
+	generate_water_grid()
+	nativeInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative")
+	targetInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget")
 
 
 # Grid Helper Functions
@@ -29,11 +49,8 @@ func get_cell_state(pos):
 	return grid[pos].state
 
 func get_or_create_cell_at(mapPos):
-	print("get_or_create_cell_at", mapPos)
 	if !grid.has(mapPos):
-		print("creating new cell at", mapPos)
 		var cell = Cell.new(mapPos)
-		print("cell created", cell)
 		add_child(cell.node)
 		grid[mapPos] = cell
 	return grid[mapPos]
@@ -63,21 +80,29 @@ func set_new_cell_active(mapPos):
 	activeCellPos = mapPos
 	grid[activeCellPos].set_active()
 
+func reset_side_bar():
+	grid[activeCellPos].set_inactive()
+	activeCellPos = null	
+	# UI Reset
+	$SideBar.hide()
+	nativeInput.text = ""
+	targetInput.text = ""
+
 func _on_button_confirm_pressed():
 	if activeCellPos == null:
 		return
 	var cell = grid[activeCellPos]
-	var nativeInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative")
-	var targetInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget")
+
 	var native = nativeInput.text
 	var target = targetInput.text
 
 	cell.set_state_vocab(target, native)
 	save_grid()
-	# UI Reset
-	$SideBar.hide()
-	nativeInput.text = ""
-	targetInput.text = ""
+	reset_side_bar()
+
+
+func _on_button_cancel_pressed():
+	reset_side_bar()
 
 
 
@@ -91,7 +116,6 @@ func save_grid():
 	for cell in grid:
 		save_grid[cell] = grid[cell].get_dict()
 	save_game.store_var(save_grid)
-	print("saved")
 	save_game.close()
 
 func load_grid():
@@ -108,8 +132,6 @@ func load_grid():
 		var cell_inst = get_or_create_cell_at(cell)
 		# set the state of the cell
 		if save_grid[cell]["state"] == "empty":
-			print("setting empty")
 			cell_inst.set_state_empty()
 		elif save_grid[cell]["state"] == "vocab":
-			print("setting vocab")
 			cell_inst.set_state_vocab(save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])

@@ -6,7 +6,8 @@ static var prefabMapText = load("res://scenes/prefabs/MapText.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
-static var vocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png")
+static var textureVocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png")
+static var textureWater = load("res://assets/Kenney_Tiles/tile_0037.png")
 
 var mapPos: Vector2
 var objects: Dictionary
@@ -22,6 +23,7 @@ func _init(_mapPos):
 	objects = {}
 	state = "none"
 	node = prefabCell.instantiate()
+	node.get_node("Tile").set_texture(textureWater)
 	# mapPos to local gives top left corner of cell, but we want center
 	var pos_x = mapPos.x * Grid.cell_size + Grid.cell_size / 2.0
 	var pos_y = mapPos.y * Grid.cell_size + Grid.cell_size / 2.0
@@ -32,18 +34,19 @@ func _init(_mapPos):
 ## States
 
 func set_state_empty():
+	# means empty land
 	state = "empty"
 	node.get_node("Tile").set_texture(textureEmpty)
 	
 func set_state_none():
+	# means water
 	state = "none"
-	node.queue_free()
 
 func set_state_vocab(_targetWord, _nativeWord):
 	state = "vocab"
 	targetWord = _targetWord
 	nativeWord = _nativeWord
-	node.get_node("Tile").set_texture(vocabLevelOne)
+	node.get_node("Tile").set_texture(textureVocabLevelOne)
 	# create label with target
 	var mapText = prefabMapText.instantiate()
 	mapText.get_node("Label").set_text(targetWord)
@@ -61,6 +64,8 @@ func set_inactive():
 	isActive = false
 	if state == "empty":
 		node.get_node("Tile").set_texture(textureEmpty)
+	if state == "none":
+		node.get_node("Tile").set_texture(textureWater)
 
 ## Saving
 

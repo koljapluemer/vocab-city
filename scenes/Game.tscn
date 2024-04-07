@@ -66,3 +66,4 @@ text = "Cancel"
 script = ExtResource("4_h5ih3")
 
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonConfirm" to="Grid" method="_on_button_confirm_pressed"]
+[connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonCancel" to="Grid" method="_on_button_cancel_pressed"]
