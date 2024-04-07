@@ -50,11 +50,12 @@ func handle_right_click(pos):
 	if activeCellPos != mapPos:
 		$SideBar.show()
 		set_new_cell_active(mapPos)
+		save_grid()
 	else:
 		$SideBar.hide()
 		activeCellPos = null
 		grid[mapPos].set_inactive()
-	save_grid()
+		save_grid()
 
 func set_new_cell_active(mapPos):
 	if activeCellPos != null:
@@ -72,7 +73,7 @@ func _on_button_confirm_pressed():
 	var target = targetInput.text
 
 	cell.set_state_vocab(target, native)
-
+	save_grid()
 	# UI Reset
 	$SideBar.hide()
 	nativeInput.text = ""
