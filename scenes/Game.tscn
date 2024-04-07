@@ -65,5 +65,26 @@ text = "Cancel"
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_h5ih3")
 
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -58.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/Panel"]
+layout_mode = 0
+offset_right = 1148.0
+offset_bottom = 55.0
+
+[node name="PracticeButton" type="Button" parent="UI/Panel/CenterContainer"]
+layout_mode = 2
+text = "Practice"
+
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonConfirm" to="Grid" method="_on_button_confirm_pressed"]
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonCancel" to="Grid" method="_on_button_cancel_pressed"]

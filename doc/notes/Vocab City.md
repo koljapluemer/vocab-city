@@ -19,3 +19,9 @@ q-type:
 - could use something like flags/cars in the driveway/other decoration to allow tags
 
 - how does Factorio manage that you can see so much complexity with so few pixels?
+
+- maybe wouldn't be too bad if stuff becomes bigger for longer words. looks better, micro-tile system, more alive...
+    - does come with complexity of the tiles, of course
+    - but does make stuff like 1-tile-wide streets possible easily
+
+- how about a fun fact building where you can talk about special rules, grammar, ...
