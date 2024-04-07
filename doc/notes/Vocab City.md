@@ -17,3 +17,5 @@ q-type:
 - if you have an image, make it fade so you are incentived to "clean" it so you actually learn?
 
 - could use something like flags/cars in the driveway/other decoration to allow tags
+
+- how does Factorio manage that you can see so much complexity with so few pixels?

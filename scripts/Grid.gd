@@ -84,13 +84,9 @@ func generate_prompt_string_from_surrounding(pos):
 	]
 	var prompt_addition = ""
 	for directions in surrounding_pos:
-		print("adding pos", directions)
 		var surrPos = pos + directions
-		print("so, pos:", surrPos)
 		if get_cell_state(surrPos) == "vocab":
-			print("target word at " + str(surrPos) + " is " + grid[surrPos].targetWord)
 			prompt_addition += grid[surrPos].targetWord + " "
-	print("found prompt addition: " + prompt_addition)
 	return prompt_addition
 
 # Taking input
