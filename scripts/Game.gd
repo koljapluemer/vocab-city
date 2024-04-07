@@ -11,3 +11,9 @@ func _physics_process(_delta):
 		pass
 		# print("left click on: ", get_global_mouse_position())
 
+
+
+func _on_practice_button_pressed():
+	var interface = load("res://scenes/prefabs/PracticeInterface.tscn")
+	var inst = interface.instantiate()
+	add_child(inst)
