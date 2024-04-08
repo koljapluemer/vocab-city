@@ -61,7 +61,7 @@ func set_state_empty(_promptString = ""):
 	if _promptString != "":
 		objects["mapText"].set_text('[center]'+_promptString+'[/center]')
 		prompt = _promptString
-		#objects["mapText"].set("theme_override_font_sizes/font_size", 5)
+		objects["mapText"].add_theme_font_size_override("normal_font_size", 26)
 
 func set_state_none():
 	# means water
@@ -79,7 +79,7 @@ func set_state_vocab(_targetWord, _nativeWord):
 		node.get_node("Tile").set_texture(textureVocabLevelThree)
 	objects["mapText"].set_text('[center]'+_targetWord+'[/center]')
 	prompt = ""
-	#objects["mapText"].set("theme_override_font_sizes/font_size", 15)
+	objects["mapText"].add_theme_font_size_override("normal_font_size", 48)
 
 
 
