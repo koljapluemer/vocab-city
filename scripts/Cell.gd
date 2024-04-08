@@ -87,11 +87,13 @@ func set_state_vocab(_targetWord, _nativeWord):
 
 func set_active():
 	isActive = true
+	node.get_node("ActiveOverlay").visible = true
 	if state == "empty" or state == "none":
 		node.get_node("Tile").set_texture(textureEmptyActive)
 
 func set_inactive():
 	isActive = false
+	node.get_node("ActiveOverlay").visible = false
 	if state == "empty":
 		node.get_node("Tile").set_texture(textureEmpty)
 	if state == "none":

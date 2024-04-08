@@ -10,9 +10,6 @@ func _physics_process(_delta):
 		grid.handle_right_click(pos)
 	if (Input.is_action_just_pressed("mb_left")):
 		pass
-		# print("left click on: ", get_global_mouse_position())
-
-
 
 func _on_practice_button_pressed():
 	if practiceUIOpen:

@@ -38,3 +38,10 @@ q-type:
 
 
 - how about this: create connections by UI, and just have generic whatever drones fly between and see if this is fun, maybe in connection to eco somehow
+
+### for the rebuild:
+
+- [mvc approach](https://old.reddit.com/r/godot/comments/137yv4s/mvc_for_godot/)
+- dp integration?
+    - [vid](https://www.youtube.com/watch?v=j-BRiTrw_F0)
+    - [reddit most practical db](https://old.reddit.com/r/godot/comments/7j9vyh/most_practical_database_to_use_with_godot/)

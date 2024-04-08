@@ -22,7 +22,6 @@ script = ExtResource("1_o0i1w")
 script = ExtResource("2_3dy6c")
 
 [node name="SideBar" type="CanvasLayer" parent="Grid"]
-visible = false
 
 [node name="Panel" type="PanelContainer" parent="Grid/SideBar"]
 anchors_preset = 1
@@ -63,6 +62,10 @@ text = "Confirm"
 [node name="ButtonCancel" type="Button" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 text = "Cancel"
+
+[node name="ButtonConnection" type="Button" parent="Grid/SideBar/Panel/Container"]
+layout_mode = 2
+text = "Connect"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_h5ih3")
