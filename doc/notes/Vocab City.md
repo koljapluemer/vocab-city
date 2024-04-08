@@ -35,3 +35,6 @@ q-type:
             - ...but where is the automation satisfaction later on?
             - or is this whole thing solved when economy motivates me? And connections how?
                 - no, more specifically, how do I get myself to *revisit* tiles...?
+
+
+- how about this: create connections by UI, and just have generic whatever drones fly between and see if this is fun, maybe in connection to eco somehow

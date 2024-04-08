@@ -35,9 +35,14 @@ func _init(_mapPos):
 	var pos_x = mapPos.x * Grid.cell_size + Grid.cell_size / 2.0
 	var pos_y = mapPos.y * Grid.cell_size + Grid.cell_size / 2.0
 	node.set_position(Vector2(pos_x, pos_y))
-	node.mouse_entered.connect(_on_mouse_entered)
-	node.mouse_exited.connect(_on_mouse_exited)
 
+
+	# Label Text
+	var mapText = prefabMapText.instantiate()
+	objects["mapText"] = mapText
+	node.add_child(mapText)
+	mapText.mouse_entered.connect(_on_mouse_entered)
+	mapText.mouse_exited.connect(_on_mouse_exited)
 
 # Getter / Setter
 
@@ -54,11 +59,6 @@ func set_state_empty(_promptString = ""):
 	state = "empty"
 	node.get_node("Tile").set_texture(textureEmpty)
 	if _promptString != "":
-		# check if label exists, otherwise create
-		if "mapText" not in objects:
-			var mapText = prefabMapText.instantiate()
-			objects["mapText"] = mapText
-			node.add_child(mapText)
 		objects["mapText"].set_text('[center]'+_promptString+'[/center]')
 		prompt = _promptString
 		#objects["mapText"].set("theme_override_font_sizes/font_size", 5)
@@ -77,13 +77,9 @@ func set_state_vocab(_targetWord, _nativeWord):
 		node.get_node("Tile").set_texture(textureVocabLevelTwo)
 	if get_level() == 3:
 		node.get_node("Tile").set_texture(textureVocabLevelThree)
-	# create label with target
-	var mapText = prefabMapText.instantiate()
-	mapText.set_text('[center]'+_targetWord+'[/center]')
-	objects["mapText"] = mapText
+	objects["mapText"].set_text('[center]'+_targetWord+'[/center]')
 	prompt = ""
 	#objects["mapText"].set("theme_override_font_sizes/font_size", 15)
-	node.add_child(mapText)
 
 
 

@@ -16,5 +16,4 @@ theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[center]This is my centered text.[/center]"
 scroll_active = false
