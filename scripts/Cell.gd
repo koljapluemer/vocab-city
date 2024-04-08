@@ -113,15 +113,15 @@ func get_dict():
 ## Hover
 
 func _on_mouse_entered():
-	# if vocab, show native word (TODO: seems broken)
 	if state == "vocab":
 		objects["mapText"].set_text('[center]'+nativeWord+'[/center]')
+	node.get_node("HoverOverlay").visible = true
 
 func _on_mouse_exited():
 	# if vocab, show target word again
 	if state == "vocab":
 		objects["mapText"].set_text('[center]'+targetWord+'[/center]')
-
+	node.get_node("HoverOverlay").visible = false
 
 ## Scoring
 
