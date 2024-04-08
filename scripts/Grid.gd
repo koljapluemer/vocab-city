@@ -99,13 +99,11 @@ func handle_right_click(pos):
 		add_child(cell.node)
 	# make sidebar visible (except if player clicks activeCell, then hide)
 	if activeCellPos != mapPos:
-		$SideBar.show()
 		set_new_cell_active(mapPos)
+		set_side_bar(grid[mapPos].get_dict())
 		save_grid()
 	else:
-		$SideBar.hide()
-		activeCellPos = null
-		grid[mapPos].set_inactive()
+		reset_side_bar()
 		save_grid()
 
 func set_new_cell_active(mapPos):
@@ -121,6 +119,11 @@ func reset_side_bar():
 	$SideBar.hide()
 	nativeInput.text = ""
 	targetInput.text = ""
+
+func set_side_bar(cellData):
+	$SideBar.show()
+	nativeInput.text = cellData["nativeWord"]
+	targetInput.text = cellData["targetWord"]
 
 func _on_button_confirm_pressed():
 	if activeCellPos == null:
