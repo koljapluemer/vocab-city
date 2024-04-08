@@ -7,6 +7,7 @@ static var cell_size: int = 256
 
 var grid: Dictionary = {}
 var editModeActive = false
+var connectModeActive = false
 var activeCellPos = null
 
 var nativeInput 
@@ -92,19 +93,31 @@ func generate_prompt_string_from_surrounding(pos):
 # Taking input
 
 func handle_right_click(pos):
-	var mapPos = Grid.pos_to_grid_pos(pos)
-	if get_cell_state(mapPos) == "none":
-		var cell = get_or_create_cell_at(mapPos)
-		# cell.set_state_empty()
-		add_child(cell.node)
-	# make sidebar visible (except if player clicks activeCell, then hide)
-	if activeCellPos != mapPos:
-		set_new_cell_active(mapPos)
-		set_side_bar(grid[mapPos].get_dict())
-		save_grid()
+	var mapPos = Grid.pos_to_grid_pos(pos)	
+	if !connectModeActive:
+		if get_cell_state(mapPos) == "none":
+			var cell = get_or_create_cell_at(mapPos)
+			# cell.set_state_empty()
+			add_child(cell.node)
+		# make sidebar visible (except if player clicks activeCell, then hide)
+		if activeCellPos != mapPos:
+			set_new_cell_active(mapPos)
+			set_side_bar(grid[mapPos].get_dict())
+			save_grid()
+		else:
+			reset_side_bar()
+			save_grid()
+		# connections
 	else:
-		reset_side_bar()
-		save_grid()
+		if get_cell_state(mapPos) == "vocab":
+			print("connecting cells")
+			connectModeActive = false
+		connect_cells(mapPos)
+
+func connect_cells(pos):
+	# run add_connection on each other
+	grid[activeCellPos].add_connection(grid[pos])
+	grid[pos].add_connection(grid[activeCellPos])
 
 func set_new_cell_active(mapPos):
 	if activeCellPos != null:
@@ -142,7 +155,8 @@ func _on_button_confirm_pressed():
 func _on_button_cancel_pressed():
 	reset_side_bar()
 
-
+func _on_button_connect_pressed():
+	connectModeActive = !connectModeActive
 
 
 

@@ -45,3 +45,8 @@ q-type:
 - dp integration?
     - [vid](https://www.youtube.com/watch?v=j-BRiTrw_F0)
     - [reddit most practical db](https://old.reddit.com/r/godot/comments/7j9vyh/most_practical_database_to_use_with_godot/)
+    - city builder general:
+        - [city builder high level](https://www.youtube.com/watch?v=DSycRC48r5c)
+        - read the [friday facts](https://www.factorio.com/blog/42)
+        - possibly use pygame ([tut](https://www.youtube.com/watch?v=wI_pvfwcPgQ&list=PLH1GhVAtxussESi-YRCN49mbfLW2rquD5)) because there I'm familar with the data structures and stuff
+        - also [here](https://www.youtube.com/watch?v=DBX4ReeH6R8&list=PLtzt35QOXmkJ9unmoeA5gXHcscQHJVQpW) is some insane guy using 3js

@@ -3,6 +3,7 @@ extends Node2D
 
 static var prefabCell = load("res://scenes/prefabs/Cell.tscn")
 static var prefabMapText = load("res://scenes/prefabs/Text.tscn")
+static var planePrefab = load("res://scenes/prefabs/Plane.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
@@ -12,6 +13,7 @@ static var textureVocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png"
 static var textureVocabLevelTwo = load("res://assets/Kenney_Tiles/tile_0028.png")
 static var textureVocabLevelThree = load("res://assets/Kenney_Tiles/tile_0029.png")
 
+
 var mapPos: Vector2
 var objects: Dictionary
 var state = ""
@@ -20,6 +22,7 @@ var nativeWord = ""
 var prompt = ""
 var node: Area2D
 var isActive = false
+var connections = []
 
 var sr = {
 	"level": 1
@@ -116,7 +119,7 @@ func get_dict():
 
 func _on_mouse_entered():
 	if state == "vocab":
-		objects["mapText"].set_text('[center]'+nativeWord+'[/center]')
+		objects["mapText"].set_text('[center]'+targetWord+'\n'+nativeWord+'[/center]')
 	node.get_node("HoverOverlay").visible = true
 
 func _on_mouse_exited():
@@ -145,4 +148,14 @@ func increase_to_level_two():
 func increase_to_level_three():
 	sr.level = 3
 	node.get_node("Tile").set_texture(textureVocabLevelThree)
+
+
+## Connections
+
+func add_connection(_cell):
+	print("adding connection")
+	connections.append(_cell)
+	var plane = planePrefab.instantiate()
+	plane.flyTo(node.global_position, _cell.node.global_position)
+	node.add_child(plane)
 

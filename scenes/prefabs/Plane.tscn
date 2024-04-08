@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhsv5w4acnxf3"]
+
+[ext_resource type="Texture2D" uid="uid://5gqxtt4o5d5v" path="res://assets/Kenney_Tiles/tile_0154.png" id="1_ds5oc"]
+[ext_resource type="Script" path="res://scripts/Plane.gd" id="1_u8u4d"]
+
+[node name="Plane" type="Area2D"]
+z_index = 20
+scale = Vector2(5, 5)
+script = ExtResource("1_u8u4d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ds5oc")

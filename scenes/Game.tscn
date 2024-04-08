@@ -22,6 +22,7 @@ script = ExtResource("1_o0i1w")
 script = ExtResource("2_3dy6c")
 
 [node name="SideBar" type="CanvasLayer" parent="Grid"]
+visible = false
 
 [node name="Panel" type="PanelContainer" parent="Grid/SideBar"]
 anchors_preset = 1
@@ -63,7 +64,7 @@ text = "Confirm"
 layout_mode = 2
 text = "Cancel"
 
-[node name="ButtonConnection" type="Button" parent="Grid/SideBar/Panel/Container"]
+[node name="ButtonConnect" type="Button" parent="Grid/SideBar/Panel/Container"]
 layout_mode = 2
 text = "Connect"
 
@@ -94,4 +95,5 @@ text = "Practice"
 
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonConfirm" to="Grid" method="_on_button_confirm_pressed"]
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonCancel" to="Grid" method="_on_button_cancel_pressed"]
+[connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonConnect" to="Grid" method="_on_button_connect_pressed"]
 [connection signal="pressed" from="UI/Panel/CenterContainer/PracticeButton" to="." method="_on_practice_button_pressed"]
