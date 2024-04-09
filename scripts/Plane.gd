@@ -13,12 +13,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	t += delta * 0.1
+	t += delta * 0.01
 	# gradually move to destination
-	global_position = global_position.lerp(currentDestination, t)
-	print(t)
-	if t >= 1:
-		print("Arrived at destination")
+	position = position.lerp(currentDestination, t)
+	# if basically at destination
+	if position.distance_to(currentDestination) < 1.0:
 		t = 0.0
 		# toggle destination
 		if currentDestination == targetPosition:
@@ -27,7 +26,7 @@ func _process(delta):
 			currentDestination = targetPosition
 
 func flyTo(start, destination):
-	global_position = start
+	position = start
 	currentDestination = destination
 	t = 0.0
 	targetPosition = destination

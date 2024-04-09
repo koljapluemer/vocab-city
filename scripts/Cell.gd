@@ -156,6 +156,6 @@ func add_connection(_cell):
 	print("adding connection")
 	connections.append(_cell)
 	var plane = planePrefab.instantiate()
-	plane.flyTo(node.global_position, _cell.node.global_position)
 	node.add_child(plane)
+	plane.flyTo(Vector2(0,0), node.to_local(_cell.node.position))
 
