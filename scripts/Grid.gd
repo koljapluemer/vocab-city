@@ -6,6 +6,7 @@ extends Node
 static var cell_size: int = 256
 
 var grid: Dictionary = {}
+var connections = []
 var editModeActive = false
 var connectModeActive = false
 var activeCellPos = null
@@ -118,6 +119,7 @@ func connect_cells(pos):
 	# run add_connection on each other
 	grid[activeCellPos].add_connection(grid[pos])
 	grid[pos].add_connection(grid[activeCellPos])
+	connections.append([activeCellPos, pos])
 
 func set_new_cell_active(mapPos):
 	if activeCellPos != null:
