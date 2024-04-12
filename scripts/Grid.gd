@@ -14,6 +14,8 @@ var activeCellPos = null
 var nativeInput 
 var targetInput
 
+var timer = 0
+
 func generate_water_grid():
 	# generate 20x20 water tiles (if they are empty)
 	for x in range(20):
@@ -29,6 +31,13 @@ func _ready():
 	generate_water_grid()
 	nativeInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative")
 	targetInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget")
+
+
+func _process(delta):
+	timer += delta
+	if timer > 10:
+		timer = 0
+		print("10 seconds have passed")
 
 
 # Grid Helper Functions
