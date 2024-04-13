@@ -1,6 +1,8 @@
 class_name Grid
 extends Node
 
+static var planePrefab = load("res://scenes/prefabs/Plane.tscn")
+
 # Setup
 
 static var cell_size: int = 256
@@ -38,6 +40,16 @@ func _process(delta):
 	if timer > 10:
 		timer = 0
 		print("10 seconds have passed")
+		var plane = planePrefab.instantiate()
+		add_child(plane)
+		# pick a random connection
+		if connections.size() > 0:
+			var connection = connections[randi() % connections.size()]
+			var _cell = grid[connection[0]]
+			# fly to the other cell
+			var home_pos = Vector2(0,0)
+			var target_pos =  _cell.node.to_local(grid[connection[1]].node.position)
+			plane.flyTo(home_pos, target_pos)
 
 
 # Grid Helper Functions

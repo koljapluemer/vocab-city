@@ -3,7 +3,6 @@ extends Node2D
 
 static var prefabCell = load("res://scenes/prefabs/Cell.tscn")
 static var prefabMapText = load("res://scenes/prefabs/Text.tscn")
-static var planePrefab = load("res://scenes/prefabs/Plane.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
@@ -155,7 +154,3 @@ func increase_to_level_three():
 func add_connection(_cell):
 	print("adding connection")
 	connections.append(_cell)
-	var plane = planePrefab.instantiate()
-	node.add_child(plane)
-	plane.flyTo(Vector2(0,0), node.to_local(_cell.node.position))
-

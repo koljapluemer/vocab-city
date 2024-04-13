@@ -18,7 +18,7 @@ func _process(delta):
 	position = position.lerp(currentDestination, t)
 	# if basically at destination
 	if position.distance_to(currentDestination) < 1.0:
-		switchTarget()
+		queue_free()
 
 func flyTo(start, destination):
 	position = start
@@ -28,14 +28,3 @@ func flyTo(start, destination):
 	homePosition = start
 	rotation = (destination - start).angle()
 
-func switchTarget():
-	t = 0.0
-	# toggle destination
-	if currentDestination == targetPosition:
-		currentDestination = homePosition
-		rotation = (homePosition - targetPosition).angle()
-	else:
-		currentDestination = targetPosition
-		rotation = (targetPosition - homePosition).angle()
-	
-	
