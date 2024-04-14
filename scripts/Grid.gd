@@ -173,6 +173,12 @@ func set_side_bar(cellData):
 	targetInput.text = cellData["targetWord"]
 
 func _on_button_confirm_pressed():
+	# deduct 20$ from global money
+	if get_node("/root/Game").money < 20:
+		print("not enough money")
+		return
+	get_node("/root/Game").add_money(-20)
+
 	if activeCellPos == null:
 		return
 	var cell = grid[activeCellPos]
@@ -205,14 +211,13 @@ func save_grid():
 	save_game.close()
 
 func load_grid():
-	#return
-	
 	var path = "user://vocab-city-grid.save"
 	if not FileAccess.file_exists(path):
 		print("no save file found")
 		return
 
 	var save_game = FileAccess.open(path, FileAccess.READ)
+
 	var save_grid = save_game.get_var()
 	for cell in save_grid:
 		# create the correct cell
