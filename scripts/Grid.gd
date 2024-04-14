@@ -2,6 +2,7 @@ class_name Grid
 extends Node
 
 static var planePrefab = load("res://scenes/prefabs/Plane.tscn")
+static var connectInterfacePrefab = load("res://scenes/prefabs/ConnectInterface.tscn")
 
 # Setup
 
@@ -140,10 +141,18 @@ func handle_right_click(pos):
 		connect_cells(mapPos)
 
 func connect_cells(pos):
+
+	var connectInterface = connectInterfacePrefab.instantiate()
+	connectInterface.set_cells(grid[activeCellPos], grid[pos])
+	add_child(connectInterface)
+
+func finish_connection(pos1, pos2, connection):
+	var cell1 = grid[pos1]
+	var cell2 = grid[pos2]
+	connections.append([pos1, pos2])
 	# run add_connection on each other
-	grid[activeCellPos].add_connection(grid[pos])
-	grid[pos].add_connection(grid[activeCellPos])
-	connections.append([activeCellPos, pos])
+	cell1.add_connection(cell2, connection)
+	cell2.add_connection(cell1, connection)
 
 func set_new_cell_active(mapPos):
 	if activeCellPos != null:

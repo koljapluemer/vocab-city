@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bak0ahp038x4w"]
+[gd_scene load_steps=6 format=3 uid="uid://bmk0tqy5poyia"]
 
-[ext_resource type="Script" path="res://scripts/PracticeInterface.gd" id="1_huuyt"]
+[ext_resource type="Script" path="res://scenes/prefabs/ConnectInterface.gd" id="1_8gf5f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xt4kp"]
 bg_color = Color(1, 1, 1, 0.945098)
@@ -13,9 +13,9 @@ bg_color = Color(0.458824, 0.364706, 0.858824, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_su11u"]
 bg_color = Color(0.458824, 0.364706, 0.858824, 1)
 
-[node name="PracticeInterface" type="CanvasLayer"]
+[node name="ConnectInterface" type="CanvasLayer"]
 layer = 10
-script = ExtResource("1_huuyt")
+script = ExtResource("1_8gf5f")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 8
@@ -48,19 +48,23 @@ alignment = 1
 [node name="QuestionLabel" type="Label" parent="Panel/Container/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "What does kitaab mean?"
+text = "What's the connection between house and tree?"
+autowrap_mode = 3
 
-[node name="Answer1" type="Button" parent="Panel/Container/VBox"]
+[node name="ConnectionInput" type="LineEdit" parent="Panel/Container/VBox"]
+layout_mode = 2
+
+[node name="ConnectButton" type="Button" parent="Panel/Container/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wk7ke")
-text = "Answer A"
+text = "Connect"
 
-[node name="Answer2" type="Button" parent="Panel/Container/VBox"]
+[node name="CancelButton" type="Button" parent="Panel/Container/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 theme_override_styles/pressed = SubResource("StyleBoxFlat_su11u")
-text = "Answer B"
+text = "Cancel"
 
 [node name="CloseButton" type="Button" parent="."]
 anchors_preset = 1
@@ -73,6 +77,6 @@ offset_bottom = 39.0
 grow_horizontal = 0
 text = "x"
 
-[connection signal="pressed" from="Panel/Container/VBox/Answer1" to="." method="_on_answer_1_pressed"]
-[connection signal="pressed" from="Panel/Container/VBox/Answer2" to="." method="_on_answer_2_pressed"]
+[connection signal="pressed" from="Panel/Container/VBox/ConnectButton" to="." method="_on_connect_button_pressed"]
+[connection signal="pressed" from="Panel/Container/VBox/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

@@ -151,6 +151,6 @@ func increase_to_level_three():
 
 ## Connections
 
-func add_connection(_cell):
-	print("adding connection")
+func add_connection(_cell, connectionText):
+	print("adding connection with text: ", connectionText)
 	connections.append(_cell)

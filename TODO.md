@@ -5,3 +5,8 @@
 - check all files for insufficient inline-comments
 - refactor 1 function
 - think about accessibility strategies
+
+- connection mvp
+	- add description prompt
+	- add money
+	- save connections actually

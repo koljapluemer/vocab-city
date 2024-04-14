@@ -49,34 +49,12 @@ func _process(delta):
 	pass
 
 
-func _on_answer_1_pressed():
-	handle_answer_pressed("Panel/Container/VBox/Answer1")
-
-
-func _on_answer_2_pressed():
-	handle_answer_pressed("Panel/Container/VBox/Answer2")
-
-
-func handle_answer_pressed(el):
-	var valueOfAnswer = get_node(el).text
-	if valueOfAnswer == correctAnswer:
-		# handle "scoring"
-		correctGridCell.add_score(2)
-		incorrectGridCell.add_score(1)
-
-
-		set_random_vocab()
-	else:
-		# handle "scoring"
-		correctGridCell.add_score(-2)
-		incorrectGridCell.add_score(-1)
-
-		var wrongAnswerEl = get_node(el)
-		wrongAnswerEl.set("theme_override_font_sizes/font_color", Color(1, 0, 0))
-		await get_tree().create_timer(1).timeout
-		wrongAnswerEl.set("theme_override_font_sizes/font_color", Color(1, 0, 0))
-
-
 func _on_close_button_pressed():
 	get_parent().close_practice_ui()
 
+func _on_cancel_button_pressed():
+	pass # Replace with function body.
+
+
+func _on_connect_button_pressed():
+	pass # Replace with function body.
