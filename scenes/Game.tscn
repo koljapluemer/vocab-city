@@ -83,15 +83,21 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 3
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/Panel"]
+[node name="CenterContainer" type="HBoxContainer" parent="UI/Panel"]
 layout_mode = 0
 offset_right = 1148.0
 offset_bottom = 55.0
 theme = SubResource("Theme_lkwf7")
+theme_override_constants/separation = 20
+alignment = 1
 
 [node name="PracticeButton" type="Button" parent="UI/Panel/CenterContainer"]
 layout_mode = 2
 text = "Practice"
+
+[node name="MoneyLabel" type="Label" parent="UI/Panel/CenterContainer"]
+layout_mode = 2
+text = "Money: 100"
 
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonConfirm" to="Grid" method="_on_button_confirm_pressed"]
 [connection signal="pressed" from="Grid/SideBar/Panel/Container/ButtonCancel" to="Grid" method="_on_button_cancel_pressed"]

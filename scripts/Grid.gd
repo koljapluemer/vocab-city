@@ -38,7 +38,7 @@ func _ready():
 
 func _process(delta):
 	timer += delta
-	if timer > 3:
+	if timer > 8:
 		timer = 0
 		# pick a random connection
 		if len(connections) > 0:

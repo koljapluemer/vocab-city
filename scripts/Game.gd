@@ -3,6 +3,10 @@ extends Node2D
 @onready var grid = $Grid
 
 var practiceUIOpen = false
+var money = 20
+
+func _ready():
+	get_node("UI/Panel/CenterContainer/MoneyLabel").text = str(money) + " $"
 
 func _physics_process(_delta):
 	if (Input.is_action_just_pressed("mb_right")):
@@ -25,3 +29,7 @@ func close_practice_ui():
 	get_node("PracticeInterface").queue_free()
 	practiceUIOpen = false
 	grid.save_grid()
+
+func add_money(amount):
+	money += amount
+	get_node("UI/Panel/CenterContainer/MoneyLabel").text = str(money) + " $"
