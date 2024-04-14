@@ -153,5 +153,4 @@ func increase_to_level_three():
 ## Connections
 
 func add_connection(destinationPos, connectionText):
-	print("adding connection with text: ", connectionText, " to ", destinationPos)
 	connections.append(destinationPos)

@@ -40,13 +40,11 @@ func _process(delta):
 	timer += delta
 	if timer > 3:
 		timer = 0
-		print("10 seconds have passed")
 		# pick a random connection
 		if len(connections) > 0:
 			var plane = planePrefab.instantiate()
 			add_child(plane)
 			var connection = connections[randi() % connections.size()]
-			print("connection: " + str(connection))
 			# fly to the other cell
 			var home_pos = grid[connection[0]].node.position
 			var target_pos = grid[connection[1]].node.position
@@ -137,7 +135,6 @@ func handle_right_click(pos):
 		# connections
 	else:
 		if get_cell_state(mapPos) == "vocab":
-			print("connecting cells")
 			connectModeActive = false
 		connect_cells(mapPos)
 
@@ -234,11 +231,6 @@ func load_grid():
 		# handle connections
 		if "connections" in save_grid[cell]:
 			for connection in save_grid[cell]["connections"]:
-				print("loading connection: " + str(connection))
 				if connection in grid:
-					print("cell to connect exists: " + str(connection))
 					connections.append([cell_inst.mapPos, connection])
 					cell_inst.add_connection(connection, "hi")
-				else:
-					print("cell to connect does not exist: " + str(connection[0]))
-
