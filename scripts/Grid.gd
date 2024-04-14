@@ -19,6 +19,8 @@ var targetInput
 
 var timer = 0
 
+var timeGap = 10
+
 func generate_water_grid():
 	# generate 20x20 water tiles (if they are empty)
 	for x in range(20):
