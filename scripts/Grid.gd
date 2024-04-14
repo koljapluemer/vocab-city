@@ -46,6 +46,7 @@ func _process(delta):
 			var plane = planePrefab.instantiate()
 			add_child(plane)
 			var connection = connections[randi() % connections.size()]
+			print("connection: " + str(connection))
 			# fly to the other cell
 			var home_pos = grid[connection[0]].node.position
 			var target_pos = grid[connection[1]].node.position
@@ -151,8 +152,9 @@ func finish_connection(pos1, pos2, connection):
 	var cell2 = grid[pos2]
 	connections.append([pos1, pos2])
 	# run add_connection on each other
-	cell1.add_connection(cell2, connection)
-	cell2.add_connection(cell1, connection)
+	cell1.add_connection(cell2.mapPos, connection)
+	cell2.add_connection(cell1.mapPos, connection)
+	save_grid()
 
 func set_new_cell_active(mapPos):
 	if activeCellPos != null:
@@ -206,6 +208,7 @@ func save_grid():
 	save_game.close()
 
 func load_grid():
+	#return
 	
 	var path = "user://vocab-city-grid.save"
 	if not FileAccess.file_exists(path):
@@ -228,3 +231,14 @@ func load_grid():
 			cell_inst.set_state_empty(prompt)
 		elif save_grid[cell]["state"] == "vocab":
 			cell_inst.set_state_vocab(save_grid[cell]["targetWord"], save_grid[cell]["nativeWord"])
+		# handle connections
+		if "connections" in save_grid[cell]:
+			for connection in save_grid[cell]["connections"]:
+				print("loading connection: " + str(connection))
+				if connection in grid:
+					print("cell to connect exists: " + str(connection))
+					connections.append([cell_inst.mapPos, connection])
+					cell_inst.add_connection(connection, "hi")
+				else:
+					print("cell to connect does not exist: " + str(connection[0]))
+

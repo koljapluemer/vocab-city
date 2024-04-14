@@ -110,7 +110,8 @@ func get_dict():
 		"targetWord": targetWord,
 		"nativeWord": nativeWord,
 		"prompt": prompt,
-		"sr": sr
+		"sr": sr,
+		"connections": connections
 	}
 	return dict
 
@@ -151,6 +152,6 @@ func increase_to_level_three():
 
 ## Connections
 
-func add_connection(_cell, connectionText):
-	print("adding connection with text: ", connectionText)
-	connections.append(_cell)
+func add_connection(destinationPos, connectionText):
+	print("adding connection with text: ", connectionText, " to ", destinationPos)
+	connections.append(destinationPos)
