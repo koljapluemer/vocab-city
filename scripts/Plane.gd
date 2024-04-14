@@ -3,6 +3,7 @@ extends Area2D
 var currentDestination 
 var homePosition
 var targetPosition
+var startedFlying = false
 var t = 0.0
 
 
@@ -13,12 +14,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	t += delta * 0.01
-	# gradually move to destination
-	position = position.lerp(currentDestination, t)
-	# if basically at destination
-	if position.distance_to(currentDestination) < 1.0:
-		queue_free()
+	if startedFlying:
+		t += delta * 0.01
+		# gradually move to destination
+		position = position.lerp(currentDestination, t)
+		# if basically at destination
+		if position.distance_to(currentDestination) < 4.0:
+			queue_free()
 
 func flyTo(start, destination):
 	position = start
@@ -27,4 +29,5 @@ func flyTo(start, destination):
 	targetPosition = destination
 	homePosition = start
 	rotation = (destination - start).angle()
+	startedFlying = true
 

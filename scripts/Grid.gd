@@ -37,19 +37,22 @@ func _ready():
 
 func _process(delta):
 	timer += delta
-	if timer > 10:
+	if timer > 3:
 		timer = 0
 		print("10 seconds have passed")
-		var plane = planePrefab.instantiate()
-		add_child(plane)
 		# pick a random connection
-		if connections.size() > 0:
+		if len(connections) > 0:
+			var plane = planePrefab.instantiate()
+			add_child(plane)
 			var connection = connections[randi() % connections.size()]
-			var _cell = grid[connection[0]]
 			# fly to the other cell
-			var home_pos = Vector2(0,0)
-			var target_pos =  _cell.node.to_local(grid[connection[1]].node.position)
-			plane.flyTo(home_pos, target_pos)
+			var home_pos = grid[connection[0]].node.position
+			var target_pos = grid[connection[1]].node.position
+			# randomly vary which is target and which is home (larger than .5)
+			if randf() > .5:
+				plane.flyTo(home_pos, target_pos)
+			else:
+				plane.flyTo(target_pos, home_pos)
 
 
 # Grid Helper Functions
