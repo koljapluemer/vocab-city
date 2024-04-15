@@ -40,6 +40,7 @@ func _ready():
 
 func _process(delta):
 	timer += delta
+	# TODO: don't make number of planes static (should be based on number of connections)
 	if timer > 8:
 		timer = 0
 		# pick a random connection
