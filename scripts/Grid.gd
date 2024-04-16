@@ -1,23 +1,17 @@
 class_name Grid
 extends Node
 
-static var planePrefab = load("res://scenes/prefabs/Plane.tscn")
 static var connectInterfacePrefab = load("res://scenes/prefabs/ConnectInterface.tscn")
-
-# Setup
 
 static var cell_size: int = 256
 
 var grid: Dictionary = {}
-var connections = []
 var editModeActive = false
 var connectModeActive = false
 var activeCellPos = null
 
-var nativeInput 
+var nativeInput
 var targetInput
-
-var timer = 0
 
 var timeGap = 10
 
@@ -36,27 +30,6 @@ func _ready():
 	generate_water_grid()
 	nativeInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative")
 	targetInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget")
-
-
-func _process(delta):
-	timer += delta
-	# TODO: don't make number of planes static (should be based on number of connections)
-	if timer > 8:
-		timer = 0
-		# pick a random connection
-		if len(connections) > 0:
-			var plane = planePrefab.instantiate()
-			add_child(plane)
-			var connection = connections[randi() % connections.size()]
-			# fly to the other cell
-			var home_pos = grid[connection[0]].node.position
-			var target_pos = grid[connection[1]].node.position
-			# randomly vary which is target and which is home (larger than .5)
-			if randf() > .5:
-				plane.flyTo(home_pos, target_pos)
-			else:
-				plane.flyTo(target_pos, home_pos)
-
 
 # Grid Helper Functions
 
@@ -84,13 +57,12 @@ func get_or_create_cell_at(mapPos):
 		grid[mapPos] = cell
 	return grid[mapPos]
 
-
 func landfill_surrounding_cells(pos):
 	var surrounding = [
 		Vector2(0, 1),
 		Vector2(0, -1),
 		Vector2(1, 0),
-		Vector2(-1, 0)
+		Vector2( - 1, 0)
 	]
 	for dir in surrounding:
 		var newPos = pos + dir
@@ -103,13 +75,12 @@ func landfill_surrounding_cells(pos):
 
 	save_grid()
 
-
 func generate_prompt_string_from_surrounding(pos):
 	var surrounding_pos = [
 		Vector2(0, 1),
 		Vector2(0, -1),
 		Vector2(1, 0),
-		Vector2(-1, 0)
+		Vector2( - 1, 0)
 	]
 	var prompt_addition = ""
 	for directions in surrounding_pos:
@@ -121,7 +92,7 @@ func generate_prompt_string_from_surrounding(pos):
 # Taking input
 
 func handle_right_click(pos):
-	var mapPos = Grid.pos_to_grid_pos(pos)	
+	var mapPos = Grid.pos_to_grid_pos(pos)
 	if !connectModeActive:
 		if get_cell_state(mapPos) == "none":
 			var cell = get_or_create_cell_at(mapPos)
@@ -135,7 +106,6 @@ func handle_right_click(pos):
 		else:
 			reset_side_bar()
 			save_grid()
-		# connections
 	else:
 		if get_cell_state(mapPos) == "vocab":
 			connectModeActive = false
@@ -150,7 +120,12 @@ func connect_cells(pos):
 func finish_connection(pos1, pos2, connection):
 	var cell1 = grid[pos1]
 	var cell2 = grid[pos2]
-	connections.append([pos1, pos2])
+	var connection_obj = Connection.new()
+	connection_obj.setPositions(
+		grid[pos1].node.position,
+		grid[pos2].node.position,
+	)
+	add_child(connection_obj)
 	# run add_connection on each other
 	cell1.add_connection(cell2.mapPos, connection)
 	cell2.add_connection(cell1.mapPos, connection)
@@ -164,7 +139,7 @@ func set_new_cell_active(mapPos):
 
 func reset_side_bar():
 	grid[activeCellPos].set_inactive()
-	activeCellPos = null	
+	activeCellPos = null
 	# UI Reset
 	$SideBar.hide()
 	nativeInput.text = ""
@@ -180,7 +155,7 @@ func _on_button_confirm_pressed():
 	if get_node("/root/Game").money < 20:
 		print("not enough money")
 		return
-	get_node("/root/Game").add_money(-20)
+	get_node("/root/Game").add_money( - 20)
 
 	if activeCellPos == null:
 		return
@@ -194,14 +169,11 @@ func _on_button_confirm_pressed():
 	save_grid()
 	reset_side_bar()
 
-
 func _on_button_cancel_pressed():
 	reset_side_bar()
 
 func _on_button_connect_pressed():
 	connectModeActive = !connectModeActive
-
-
 
 # Saving and Loading
 func save_grid():
@@ -240,5 +212,10 @@ func load_grid():
 		if "connections" in save_grid[cell]:
 			for connection in save_grid[cell]["connections"]:
 				if connection in grid:
-					connections.append([cell_inst.mapPos, connection])
+					var connection_obj = Connection.new()
+					connection_obj.setPositions(
+						cell_inst.mapPos,
+						grid[connection].node.position,
+					)
+					add_child(connection_obj)
 					cell_inst.add_connection(connection, "hi")
