@@ -15,6 +15,8 @@ var targetInput
 
 var timeGap = 10
 
+var price = 20
+
 func generate_water_grid():
 	# generate 20x20 water tiles (if they are empty)
 	for x in range(20):
@@ -152,10 +154,12 @@ func set_side_bar(cellData):
 
 func _on_button_confirm_pressed():
 	# deduct 20$ from global money
-	if get_node("/root/Game").money < 20:
+	if get_node("/root/Game").money < price:
 		print("not enough money")
 		return
-	get_node("/root/Game").add_money( - 20)
+	get_node("/root/Game").add_money( - price)
+	price += 5
+	print("price now: $" + str(price))
 
 	if activeCellPos == null:
 		return
