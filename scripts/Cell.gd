@@ -6,7 +6,6 @@ static var prefabMapText = load("res://scenes/prefabs/Text.tscn")
 
 static var textureEmpty = load("res://assets/Kenney_Tiles/tile_0000.png")
 static var textureEmptyActive = load("res://assets/Kenney_Tiles/tile_0002.png")
-static var textureWater = load("res://assets/Kenney_Tiles/tile_0037.png")
 
 static var textureVocabLevelOne = load("res://assets/Kenney_Tiles/tile_0027.png")
 static var textureVocabLevelTwo = load("res://assets/Kenney_Tiles/tile_0028.png")
@@ -32,7 +31,6 @@ func _init(_mapPos):
 	objects = {}
 	state = "none"
 	node = prefabCell.instantiate()
-	node.get_node("Tile").set_texture(textureWater)
 	# mapPos to local gives top left corner of cell, but we want center
 	var pos_x = mapPos.x * Grid.cell_size + Grid.cell_size / 2.0
 	var pos_y = mapPos.y * Grid.cell_size + Grid.cell_size / 2.0
@@ -59,7 +57,7 @@ func get_level():
 func set_state_empty(_promptString = ""):
 	# means empty land
 	state = "empty"
-	node.get_node("Tile").set_texture(textureEmpty)
+	#node.get_node("Tile").set_texture(textureEmpty)
 	if _promptString != "":
 		objects["mapText"].set_text('[center]'+_promptString+'[/center]')
 		prompt = _promptString
@@ -91,15 +89,17 @@ func set_active():
 	isActive = true
 	node.get_node("ActiveOverlay").visible = true
 	if state == "empty" or state == "none":
-		node.get_node("Tile").set_texture(textureEmptyActive)
+		pass
+		#node.get_node("Tile").set_texture(textureEmptyActive)
 
 func set_inactive():
 	isActive = false
 	node.get_node("ActiveOverlay").visible = false
 	if state == "empty":
-		node.get_node("Tile").set_texture(textureEmpty)
+		pass
+		#node.get_node("Tile").set_texture(textureEmpty)
 	if state == "none":
-		node.get_node("Tile").set_texture(textureWater)
+		pass
 
 ## Saving
 

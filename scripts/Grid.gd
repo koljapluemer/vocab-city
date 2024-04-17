@@ -3,7 +3,7 @@ extends Node
 
 static var connectInterfacePrefab = load("res://scenes/prefabs/ConnectInterface.tscn")
 
-static var cell_size: int = 256
+static var cell_size: int = 290
 
 var grid: Dictionary = {}
 var editModeActive = false
@@ -16,20 +16,9 @@ var targetInput
 var timeGap = 10
 
 var price = 20
-
-func generate_water_grid():
-	# generate 20x20 water tiles (if they are empty)
-	for x in range(20):
-		for y in range(20):
-			var pos = Vector2(x - 10, y - 10)
-			if !grid.has(pos):
-				var cell = Cell.new(pos)
-				grid[pos] = cell
-				add_child(cell.node)
 	
 func _ready():
 	load_grid()
-	generate_water_grid()
 	nativeInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditNative")
 	targetInput = $SideBar.get_node("Panel").get_node("Container").get_node("EditTarget")
 
